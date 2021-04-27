@@ -1,0 +1,41 @@
+{
+    "name": "turingtraderjs",
+    "version": "0.0.0",
+    "description": "A backtesting engine for Node.js",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "demo-100": "node --experimental-modules --experimental-specifier-resolution=node --trace-warnings src/demos/demo-100.js",
+        "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+        "test": "echo \\\"Error: no test specified\\\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "tbd"
+    },
+    "keywords": [
+        "finance",
+        "trading",
+        "trading-bot",
+        "quant",
+        "trading-platform",
+        "portfolio-optimization",
+        "trading-strategies",
+        "trading-algorithms",
+        "stocks",
+        "stock-indicators",
+        "quantitative-finance",
+        "technical-analysis",
+        "algorithmic-trading",
+        "portfolios",
+        "technical-indicators",
+        "quantitative-trading",
+        "backtesting",
+        "portfolio-management"
+    ],
+    "author": "Felix Bertram",
+    "license": "AGPL-3.0-or-later",
+    "devDependencies": {
+        "prettier": "2.2.1"
+    }
+}
