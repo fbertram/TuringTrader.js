@@ -1,26 +1,22 @@
 //==============================================================================
-// Name:        tests/test-03-asset
+// Name:        tests/test-04-asset
 // Project:     TuringTrader.js
-// Description: test #03: loading asset data
+// Description: test #04: load asset data
 // History:     FUB, 2021v01, created
 //==============================================================================
 
 import { createSimulator } from "../simulator"
 
-export const test_03_asset = () => {
+export const test_04_asset = () => {
     // this tests shows how assets are loaded into the simulator
-    // and how the cache prevents loading data more than once
+    // and how they are aligned with the simulator timestamps
 
     const algo = {
         run: (sim) => {
             sim.startDate = new Date("01/01/2021")
             sim.endDate = new Date("05/01/2021")
 
-            // note how the second attempt to load
-            // the data is served from the cache
-
-            const spy1 = sim.asset("spy")
-            const spy2 = sim.asset("spy")
+            const spy = sim.asset("spy")
 
             // note how the data is truncated and padded
             // to match the simulator timestamps
