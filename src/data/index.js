@@ -1,14 +1,21 @@
 //==============================================================================
 // Name:        data/index
+// Project:     TuringTrader.js
 // Description: data source wrapper.
-// History:     FUB, 2021iii23, created
+// History:     FUB, 2021iv30, created
 //==============================================================================
 
 import { Indicators } from "../indicators"
 import sampleData from "./spy.json"
 
-export const loadData = (sim, args) => {
-    const data = sim.cacheData(null, `loadData(${args.symbol})`, (cacheId) => {
+export const loadAsset = (sim, name) => {
+    sim.info(`loadData(${name})`)
+
+    return {
+        allData: "hello from loadAsset",
+    }
+
+    /*const data = sim.cacheData(null, `loadData(${args.symbol})`, (cacheId) => {
         sim.info(`processing ${cacheId}`)
 
         return {
@@ -25,7 +32,7 @@ export const loadData = (sim, args) => {
     return {
         data,
         ...Indicators(sim, data),
-    }
+    }*/
 }
 
 //==============================================================================
