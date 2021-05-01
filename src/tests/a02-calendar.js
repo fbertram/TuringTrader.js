@@ -1,7 +1,7 @@
 //==============================================================================
-// Name:        demos/a01-hello
+// Name:        tests/a02-calendar
 // Project:     TuringTrader.js
-// Description: demo #01: 'hello trader'
+// Description: demo #02: trading calendar
 // History:     FUB, 2021iv30, created
 //==============================================================================
 
@@ -9,11 +9,14 @@ import { createSimulator } from "../simulator"
 
 const algo = {
     run: (sim) => {
-        sim.info("hello trader")
+        sim.startDate = new Date("01/01/2021")
+        sim.endDate = new Date("05/01/2021")
+
+        sim.tradingDays.forEach((simTime) => {
+            sim.info(simTime)
+        })
     },
-    report: (sim) => {
-        sim.info("here's your report")
-    }
+    report: (sim) => {}
 }
 
 const sim = createSimulator(algo)
