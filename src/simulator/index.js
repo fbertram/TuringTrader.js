@@ -1,59 +1,50 @@
 //==============================================================================
 // Name:        simulator/index
+// Project:     TuringTrader.js
 // Description: simulator core.
+// History:     FUB, 2021iv30, created
 //==============================================================================
 
-import { loadData as _loadData } from "../data"
-import { clearCache, cacheData as _cacheData } from "./cache"
+import { createTradingCalendarUS } from "./trading-calendar-us"
 
-export const create = (fn) => {
-    const data = {}
+//import { loadData as _loadData } from "../data"
+//import { clearCache, cacheData as _cacheData } from "./cache"
+
+export const createSimulator = (algo) => {
+    const data = {
+        tradingCalendar: createTradingCalendarUS(),
+    }
 
     //========== internal interface: methods called inside algorithms
+
     const internalInterface = {
+        //----- properties
+        set startDate(d) {setProperty("startDate", d)},
+        get startDate() {getProperty("startDate")},
+        get tradingDays() {getProperty("tradingCalendar").tradingDays},
+
+        //----- methods
         // hoisting functions to provide access from everywhere
-        setProperty: (name, value) => setProperty(name, value),
         getProperty: (name) => getProperty(name),
+        setProperty: (name, value) => setProperty(name, value),
         info: (...args) => info(args),
-        loadData: (symbol) => loadData(symbol),
-        cacheData: (parent, child, fn) => cacheData(parent, child, fn),
-        loop: (fn) => loop(fn),
     }
 
-    const setProperty = (name, value) => (data[name] = value)
+    const setProperty = (name, value) => data[name] = value
     const getProperty = (name) => data[name]
-
     const info = (args) => console.log("INFO: ", args)
 
-    const loadData = (symbol) => _loadData(internalInterface, { symbol })
-
-    const cacheData = (parent, child, fn) =>
-        _cacheData(internalInterface, { parent, child, fn })
-
-    const loop = (fn) => {
-        // TODO: implement this!
-        fn()
-        fn()
-        fn()
-    }
-
     //========== external interface: methods called on simulator instance
-    const run = (settings) => {
-        const sim = {
-            ...internalInterface,
-            ...settings,
-        }
-        clearCache(sim)
-        return fn(sim)
+
+    const externalInterface = {
+        run: (sim) => run(sim),
+        report: (sim) => report(sim),
     }
 
-    return {
-        run,
-    }
-}
+    const run = (sim) => algo.run(internalInterface)
+    const report = (sim) => algo.report(internalInterface)
 
-export const Simulator = {
-    create,
+    return externalInterface
 }
 
 //==============================================================================

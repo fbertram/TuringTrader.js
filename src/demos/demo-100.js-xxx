@@ -4,9 +4,9 @@
 // History:     FUB, 2021iii23, created
 //==============================================================================
 
-import { Simulator } from "../simulator"
+import { createSimulator } from "../simulator"
 
-var sim = Simulator.create((sim) => {
+var sim = createSimulator((sim) => {
     sim.info(`running simulation. start=${sim.start}, end=${sim.end}`)
 
     const msft = sim.loadData("MSFT")

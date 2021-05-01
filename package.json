@@ -5,7 +5,8 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "demo-100": "node --experimental-modules --experimental-specifier-resolution=node --trace-warnings src/demos/demo-100.js",
+        "a01-hello": "node --experimental-modules --experimental-specifier-resolution=node --trace-warnings src/demos/a01-hello.js",
+        "a02-calendar": "node --experimental-modules --experimental-specifier-resolution=node --trace-warnings src/demos/a02-calendar.js",
         "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
         "test": "echo \\\"Error: no test specified\\\" && exit 1"
     },

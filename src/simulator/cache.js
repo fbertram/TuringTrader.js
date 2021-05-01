@@ -4,12 +4,14 @@
 // History:     FUB, 2021iii23, created
 //==============================================================================
 
+/*
 TODO: 
 * rename clearCache to cacheClear
 * rename cacheData to cacheAsync
 * make cacheAsync return a Promise
 * await the parent
 * possibly run fn asynchronously
+*/
 
 
 export const clearCache = (sim) => {
