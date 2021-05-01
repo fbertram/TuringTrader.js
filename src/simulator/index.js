@@ -19,9 +19,24 @@ export const createSimulator = (algo) => {
 
     const internalInterface = {
         //----- properties
-        set startDate(d) {setProperty("startDate", d)},
-        get startDate() {getProperty("startDate")},
-        get tradingDays() {getProperty("tradingCalendar").tradingDays},
+        get startDate() {
+            return getProperty("startDate")
+        },
+        set startDate(d) {
+            setProperty("startDate", d)
+        },
+        get endDate() {
+            return getProperty("endDate")
+        },
+        set endDate(d) {
+            setProperty("endDate", d)
+        },
+        get tradingDays() {
+            const c = getProperty("tradingCalendar")
+            c.startDate = getProperty("startDate")
+            c.endDate = getProperty("endDate")
+            return c.tradingDays
+        },
 
         //----- methods
         // hoisting functions to provide access from everywhere
