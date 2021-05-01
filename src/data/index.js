@@ -8,12 +8,18 @@
 import { Indicators } from "../indicators"
 import sampleData from "./spy.json"
 
-export const loadAsset = (sim, name) => {
-    sim.info(`loadData(${name})`)
+export const getAsset = (sim, name) => {
+    const id = `loadAsset(${name}, ${sim.startDate}, ${sim.endDate})`
 
-    return {
-        allData: "hello from loadAsset",
+    const loadAsset = (name, startDate, endDate) => {
+        sim.info(id)
+        return {
+            allData: "hello from loadAsset",
+        }    
     }
+
+    return sim.cache(id, () => loadAsset())
+}
 
     /*const data = sim.cacheData(null, `loadData(${args.symbol})`, (cacheId) => {
         sim.info(`processing ${cacheId}`)
@@ -33,7 +39,6 @@ export const loadAsset = (sim, name) => {
         data,
         ...Indicators(sim, data),
     }*/
-}
 
 //==============================================================================
 // end of file

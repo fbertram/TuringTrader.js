@@ -6,7 +6,7 @@
 //==============================================================================
 
 import { createTradingCalendarUS } from "./trading-calendar-us"
-import { loadAsset } from "../data"
+import { getAsset } from "../data"
 import { cacheResult } from "./cache"
 
 export const createSimulator = (algo) => {
@@ -49,7 +49,7 @@ export const createSimulator = (algo) => {
     const setProperty = (name, value) => data[name] = value
     const getProperty = (name) => data[name]
     const info = (args) => console.log("INFO: ", args)
-    const asset = (name) => loadAsset(internalInterface, name)
+    const asset = (name) => getAsset(internalInterface, name)
     const cache = (id, fn) => cacheResult(internalInterface, id, fn)
 
     //========== external interface: methods called on simulator instance
