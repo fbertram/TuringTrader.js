@@ -13,7 +13,6 @@ export const test_03_cache = () => {
 
     const algo = {
         run: (sim) => {
-
             const toDo = () => {
                 sim.info("working on my todos")
                 return "here is the result"
@@ -21,7 +20,7 @@ export const test_03_cache = () => {
 
             const cacheId = "unique id here"
 
-            // note how the second attempt to run
+            // note how the second request for
             // toDo is served from the cache
 
             const result1 = sim.cache(cacheId, toDo)
@@ -31,7 +30,7 @@ export const test_03_cache = () => {
             sim.info(result2)
         },
 
-        report: (sim) => {}
+        report: (sim) => {},
     }
 
     const sim = createSimulator(algo)
