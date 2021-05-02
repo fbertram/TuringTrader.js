@@ -418,7 +418,7 @@ export const createTradingCalendarUS = () => {
             const tradingDays = []
             let date = startDate
 
-            while (date < endDate) {
+            while (date <= endDate) {
                 if (isExchangeOpen(date))
                     tradingDays.push(date.toJSDate())
 
