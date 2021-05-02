@@ -396,7 +396,7 @@ export const createTradingCalendarUS = () => {
             }
 
             // startDate is the timestamp of the first bar's close
-            const earliestDate = DateTime.fromFormat(`1/1/1990 ${_time} ${_zone}`, _format)
+            const earliestDate = DateTime.fromFormat(`1/2/1990 ${_time} ${_zone}`, _format)
             const startProperty = data.hasOwnProperty('startDate') ?
                 DateTime.fromJSDate(data.startDate) :
                 earliestDate
