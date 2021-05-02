@@ -36,7 +36,7 @@ export const test_02_calendar = () => {
             })
         },
 
-        report: (sim) => {}
+        report: (sim) => { }
     }
 
     const sim = createSimulator(algo)

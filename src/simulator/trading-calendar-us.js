@@ -348,8 +348,8 @@ const _holidayStrings = [
 const _holidays = _holidayStrings
     .map(s => DateTime.fromFormat(`${s} ${_time} ${_zone}`, _format).toJSDate())
 
-const _oneDay = Duration.fromObject({days: 1})
-    
+const _oneDay = Duration.fromObject({ days: 1 })
+
 export const createTradingCalendarUS = () => {
     const data = {}
 
@@ -404,15 +404,15 @@ export const createTradingCalendarUS = () => {
                 startProperty > earliestDate ?
                     startProperty :
                     earliestDate)
- 
+
             // endDate is the timestamp of the last bar's close
             const latestDate = DateTime.now().setZone(_zone)
             const endProperty = data.hasOwnProperty('endDate') ?
                 DateTime.fromJSDate(data.endDate) :
                 latestDate
             const endDate = previousClosingTime(
-                endProperty < latestDate ? 
-                    endProperty : 
+                endProperty < latestDate ?
+                    endProperty :
                     latestDate)
 
             const tradingDays = []
@@ -423,7 +423,6 @@ export const createTradingCalendarUS = () => {
                     tradingDays.push(date.toJSDate())
 
                 date = date.plus(_oneDay)
-                //date.setDate(date.getDate() + 1)
             }
 
             return tradingDays
