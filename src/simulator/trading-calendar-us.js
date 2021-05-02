@@ -379,8 +379,8 @@ export const createTradingCalendarUS = () => {
             }
 
             const previousClosingTime = (dateTime) => {
-                const timeAtExchange = dateTime.setZone(_zone)
-                const timeOfClose = timeAtExchange
+                const timeOfClose = dateTime
+                    .setZone(_zone)
                     .set({
                         hour: _hour,
                         minute: _minute,
@@ -406,7 +406,7 @@ export const createTradingCalendarUS = () => {
                     earliestDate)
 
             // endDate is the timestamp of the last bar's close
-            const latestDate = DateTime.now().setZone(_zone)
+            const latestDate = DateTime.now()
             const endProperty = data.hasOwnProperty('endDate') ?
                 DateTime.fromJSDate(data.endDate) :
                 latestDate
@@ -417,6 +417,10 @@ export const createTradingCalendarUS = () => {
 
             const tradingDays = []
             let date = startDate
+
+            // NOTE: date must be in the stock exchange's time zone,
+            // so that we can walk through the dates and properly
+            // adjust the closing time for daylight savings.
 
             while (date <= endDate) {
                 if (isExchangeOpen(date))
