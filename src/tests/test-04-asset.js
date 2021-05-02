@@ -21,7 +21,7 @@ export const test_04_asset = () => {
             // note how the data is truncated and padded
             // to match the simulator timestamps
 
-            sim.info(spy1.allData)
+            sim.info(spy.allData)
         },
         report: (sim) => {}
     }
