@@ -7,38 +7,39 @@
 
 import { Indicators } from "../indicators"
 import sampleData from "./spy.json"
+import { loadAssetFromYahoo } from "./yahoo"
 
 export const getAsset = (sim, name) => {
-    const id = `loadAsset(${name}, ${sim.startDate}, ${sim.endDate})`
+    const id = `loadAsset(${name}, ${sim.startDate.getTime()}, ${sim.endDate.getTime()})`
 
-    const loadAsset = (name, startDate, endDate) => {
-        sim.info(id)
+    const loadAsset = (sim, name) => {
+        const promise = loadAssetFromYahoo(sim, name)
+
         return {
-            allData: "hello from loadAsset",
-        }    
+            id,
+            get allData() {
+                return promise
+            },
+
+            /*get allData() {
+                // see https://medium.com/trabe/async-getters-and-setters-is-it-possible-c18759b6f7e4
+                return (async () => {
+                    try {
+                        //sim.info("waiting")
+                        const x = await promise
+                        sim.info(`got ${x}`)
+                        return x
+                        return await promise
+                    } catch(e) {
+                        return null
+                    }
+                })()
+            },*/
+        }
     }
 
-    return sim.cache(id, () => loadAsset())
+    return sim.cache(id, () => loadAsset(sim, name))
 }
-
-    /*const data = sim.cacheData(null, `loadData(${args.symbol})`, (cacheId) => {
-        sim.info(`processing ${cacheId}`)
-
-        return {
-            cacheId,
-            data: new Promise(resolve => {
-                setTimeout(() => {
-                    sim.info(`finished ${cacheId}`)
-                    resolve(sampleData)
-                }, 3000)
-            })
-        }
-    })
-
-    return {
-        data,
-        ...Indicators(sim, data),
-    }*/
 
 //==============================================================================
 // end of file
