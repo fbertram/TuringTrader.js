@@ -46,7 +46,7 @@ export const createSimulator = (algo) => {
         cache: (id, fn) => cache(id, fn),
     }
 
-    const setProperty = (name, value) => data[name] = value
+    const setProperty = (name, value) => (data[name] = value)
     const getProperty = (name) => data[name]
     const info = (args) => console.log("INFO: ", args)
     const asset = (name) => getAsset(internalInterface, name)

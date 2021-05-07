@@ -13,7 +13,6 @@ export const test_02_calendar = () => {
 
     const algo = {
         run: (sim) => {
-
             // note that all dates are specified in the
             // user's local time zone, even though the
             // trading calendar reflects times and dates
@@ -26,17 +25,20 @@ export const test_02_calendar = () => {
             // though we did not load any quotations
 
             const format = {
-                weekday: 'long',
-                year: 'numeric', month: 'long', day: 'numeric',
-                hour: 'numeric', minute: 'numeric',
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
             }
 
             sim.tradingDays.forEach((simTime) => {
-                sim.info(new Intl.DateTimeFormat('en', format).format(simTime))
+                sim.info(new Intl.DateTimeFormat("en", format).format(simTime))
             })
         },
 
-        report: (sim) => { }
+        report: (sim) => {},
     }
 
     const sim = createSimulator(algo)

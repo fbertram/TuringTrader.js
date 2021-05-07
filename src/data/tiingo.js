@@ -1,4 +1,3 @@
-
 /*
                     string url = string.Format("https://api.tiingo.com/tiingo/daily/{0}?token={1}",
                         convertSymbol(Info[DataSourceParam.symbolTiingo]),

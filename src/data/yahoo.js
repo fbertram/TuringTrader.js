@@ -116,7 +116,7 @@ export const loadAssetFromYahoo = (sim, name) => {
             })
         })
         // FIXME: what are we doing here?
-        .catch(err => sim.info(err))
+        .catch((err) => sim.info(err))
 
     return promise
 }

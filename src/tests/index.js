@@ -9,16 +9,18 @@ import { test_01_hello } from "./test-01-hello"
 import { test_02_calendar } from "./test-02-calendar"
 import { test_03_cache } from "./test-03-cache"
 import { test_04_asset } from "./test-04-asset"
+import { test_05_indicator_bar } from "./test-05-indicator-bar"
 
 const allTests = [
-    test_01_hello,
-    test_02_calendar,
-    test_03_cache,
-    test_04_asset,
+    //test_01_hello,
+    //test_02_calendar,
+    //test_03_cache,
+    //test_04_asset,
+    test_05_indicator_bar,
 ]
 
 const runTests = () => {
-    allTests.forEach(t => {
+    allTests.forEach((t) => {
         console.log(`========== ${t.name} ==============================`)
         t()
     })

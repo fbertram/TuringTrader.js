@@ -1,27 +1,28 @@
 //==============================================================================
-// Name:        tests/test-04-asset
+// Name:        tests/test-05-indicator-bar
 // Project:     TuringTrader.js
-// Description: test #04: load asset data
-// History:     FUB, 2021v01, created
+// Description: test #05: calculate indicators on bars
+// History:     FUB, 2021v07, created
 //==============================================================================
 
 import { createSimulator } from "../simulator"
 
-export const test_04_asset = async () => {
-    // this tests shows how assets are loaded into the simulator
-    // and how they are aligned with the simulator timestamps
+export const test_05_indicator_bar = async () => {
+    // this tests shows how indicators are
+    // calculated on bars
 
     const algo = {
         run: async (sim) => {
             sim.startDate = new Date("01/01/2021")
             sim.endDate = new Date("01/31/2021")
 
-            const spy = sim.asset("spy")
+            const close = sim.asset("spy").close
 
-            // note that assets are asynchronous.
-            // to access the data, we need to await them
+            // note that indicators are asynchronous.
+            // before we can use the data, we need to
+            // await them
 
-            sim.info(await spy.data)
+            sim.info(await close.data)
         },
         report: (sim) => {},
     }
