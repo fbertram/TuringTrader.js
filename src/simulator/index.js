@@ -38,12 +38,33 @@ export const createSimulator = (algo) => {
         },
 
         //----- methods
-        // hoisting functions to provide access from everywhere
+        // TODO: can we move all methods up here?
         getProperty: (name) => getProperty(name),
         setProperty: (name, value) => setProperty(name, value),
         info: (...args) => info(args),
         asset: (name) => asset(name),
         cache: (id, fn) => cache(id, fn),
+
+        loop: async (fn) => {
+            const r = internalInterface.tradingDays
+            setProperty("simTimeRange", r)
+            for (let i = 0; i < r.length; i++) {
+                setProperty("simTimeIndex", i)
+                await fn()
+            }
+        },
+
+        t: (offset) => {
+            // TODO: it would be helpful to look further than the sim range
+            // use case: we want to know the next trading date, so that
+            // we can determine the last trading day of the month
+            // it should be possible to do this, by using a larger range for
+            // the sim time range
+            const r = getProperty("simTimeRange")
+            const i = Math.min(r.length - 1,
+                Math.max(0, getProperty("simTimeIndex") - offset))
+            return r[i]
+        },
     }
 
     const setProperty = (name, value) => (data[name] = value)

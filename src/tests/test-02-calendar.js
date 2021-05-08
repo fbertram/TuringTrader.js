@@ -33,8 +33,8 @@ export const test_02_calendar = () => {
                 minute: "numeric",
             }
 
-            sim.tradingDays.forEach((simTime) => {
-                sim.info(new Intl.DateTimeFormat("en", format).format(simTime))
+            sim.loop(() => {
+                sim.info(new Intl.DateTimeFormat("en", format).format(sim.t(0)))
             })
         },
 

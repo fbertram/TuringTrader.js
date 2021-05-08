@@ -1,27 +1,26 @@
 //==============================================================================
-// Name:        tests/test-06-indicator-num
+// Name:        tests/test-07-time-series
 // Project:     TuringTrader.js
-// Description: test #06: calculate indicators on number series
-// History:     FUB, 2021v07, created
+// Description: test #07: access time series data.
+// History:     FUB, 2021v08, created
 //==============================================================================
 
 import { createSimulator } from "../simulator"
 
-export const test_06_indicator_num = async () => {
-    // this tests shows how indicators are
-    // calculated on number series
+export const test_07_time_series = async () => {
+    // this tests shows how to access
+    // time series data
 
     const algo = {
         run: async (sim) => {
             sim.startDate = new Date("01/01/2021")
             sim.endDate = new Date("01/31/2021")
 
-            // note how we can seamlessly calculate
-            // indicators on indicators
+            const i = sim.asset("spy").close
 
-            const i = sim.asset("spy").close.sma(5).ema(10)
-            sim.info(i.id)
-            sim.info(await i.data)
+            sim.loop(async () => {
+                sim.info(`${sim.t(0)} = ${await i.t(0)}`)
+            })
         },
         report: (sim) => { },
     }
