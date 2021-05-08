@@ -12,6 +12,9 @@ export const test_01_hello = () => {
     // and overloading of the run and report methods
 
     const algo = {
+        // note how the simulator APIs are available
+        // through the sim parameter
+
         run: (sim) => sim.info("hello trader"),
         report: (sim) => sim.info("here's your report"),
     }

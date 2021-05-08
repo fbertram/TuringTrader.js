@@ -12,7 +12,7 @@ export const getAsset = (sim, name) => {
     const id = `loadAsset(${name}, ${sim.startDate.getTime()}, ${sim.endDate.getTime()})`
 
     return sim.cache(
-        id, 
+        id,
         () => IndicatorsBar(
             sim,
             id,

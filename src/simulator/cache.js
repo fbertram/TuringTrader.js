@@ -1,7 +1,7 @@
 //==============================================================================
 // Name:        simulator/cache
 // Project:     TuringTrader.js
-// Description: simulator cache for assets and 'automagic' indicators.
+// Description: simulator cache for asset quotes and 'automagic' indicators.
 // History:     FUB, 2021v01, created
 //==============================================================================
 

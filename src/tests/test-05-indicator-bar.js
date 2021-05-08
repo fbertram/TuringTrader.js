@@ -16,15 +16,15 @@ export const test_05_indicator_bar = async () => {
             sim.startDate = new Date("01/01/2021")
             sim.endDate = new Date("01/31/2021")
 
-            const close = sim.asset("spy").close
-
             // note that indicators are asynchronous.
             // before we can use the data, we need to
             // await them
 
-            sim.info(await close.data)
+            const c = sim.asset("spy").close
+            const data = await c.data
+            sim.info(data)
         },
-        report: (sim) => {},
+        report: (sim) => { },
     }
 
     const sim = createSimulator(algo)
