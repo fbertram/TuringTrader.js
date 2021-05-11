@@ -26,8 +26,8 @@ export const test_07_time_series = async () => {
     }
 
     const sim = createSimulator(algo)
-    sim.run()
-    sim.report()
+    await sim.run()
+    await sim.report()
 }
 
 //==============================================================================

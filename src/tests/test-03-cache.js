@@ -7,7 +7,7 @@
 
 import { createSimulator } from "../simulator"
 
-export const test_03_cache = () => {
+export const test_03_cache = async () => {
     // this test shows how the simulator caches results
     // and avoids calculating them more then once
 
@@ -34,8 +34,8 @@ export const test_03_cache = () => {
     }
 
     const sim = createSimulator(algo)
-    sim.run()
-    sim.report()
+    await sim.run()
+    await sim.report()
 }
 
 //==============================================================================

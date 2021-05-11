@@ -28,8 +28,8 @@ export const test_04_asset = async () => {
     }
 
     const sim = createSimulator(algo)
-    sim.run()
-    sim.report()
+    await sim.run()
+    await sim.report()
 }
 
 //==============================================================================

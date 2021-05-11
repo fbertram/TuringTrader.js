@@ -50,6 +50,14 @@ export const IndicatorsBar = (sim, id0, promise0) => ({
     get data() {
         return promise0
     },
+    alloc: (alloc, type, price) => ({
+        time: sim.t(0),
+        id: id0,
+        data: IndicatorsOHLCV(sim, id0, promise0),
+        alloc,
+        type,
+        price
+    }),
     ...IndicatorsOHLCV(sim, id0, promise0),
 })
 

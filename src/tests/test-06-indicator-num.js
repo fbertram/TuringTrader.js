@@ -27,8 +27,8 @@ export const test_06_indicator_num = async () => {
     }
 
     const sim = createSimulator(algo)
-    sim.run()
-    sim.report()
+    await sim.run()
+    await sim.report()
 }
 
 //==============================================================================

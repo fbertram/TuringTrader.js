@@ -7,7 +7,7 @@
 
 import { createSimulator } from "../simulator"
 
-export const test_01_hello = () => {
+export const test_01_hello = async () => {
     // this test demonstrates simulator instantiation
     // and overloading of the run and report methods
 
@@ -20,8 +20,8 @@ export const test_01_hello = () => {
     }
 
     const sim = createSimulator(algo)
-    sim.run()
-    sim.report()
+    await sim.run()
+    await sim.report()
 }
 
 //==============================================================================

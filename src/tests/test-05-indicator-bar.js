@@ -28,8 +28,8 @@ export const test_05_indicator_bar = async () => {
     }
 
     const sim = createSimulator(algo)
-    sim.run()
-    sim.report()
+    await sim.run()
+    await sim.report()
 }
 
 //==============================================================================
