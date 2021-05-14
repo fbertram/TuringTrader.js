@@ -21,7 +21,7 @@ export const test_08_orders = async () => {
 
             sim.deposit(1e6)
 
-            sim.loop(async () => {
+            await sim.loop(async () => {
                 const orders = []
 
                 // note how we are rebalancing on a monthly
@@ -39,6 +39,13 @@ export const test_08_orders = async () => {
 
                 return orders
             })
+
+            // BUGBUG: this should really go into report.
+            // we need to add some more awaits to make sure
+            // report is not called before the simulation
+            // loop finished
+
+            sim.info(sim.getProperty("result"))
         },
         report: (sim) => { },
     }

@@ -50,6 +50,11 @@ export const createSimulator = (algo) => {
             limNextBar: 2,
             stpNextBar: 3,
         },
+        get nav() {
+        },
+        get result() {
+            return getProperty("result")
+        },
         //----- methods
         // TODO: can we move all methods up here?
         getProperty: (name) => getProperty(name),
@@ -61,6 +66,21 @@ export const createSimulator = (algo) => {
         loop: async (fn) => {
             const r = internalInterface.tradingDays
             setProperty("simTimeRange", r)
+
+            const result = {
+                t: [],
+                // we populate the next bar's open on this bar's close
+                // therefore, we never get to populate the first bar's open
+                o: [state.cash],
+                // we can't produce meaningful high and low values. 
+                // therefore, we just skip them.
+                c: [],
+                // these are the asset allocations on open and close
+                // limit and stop orders are reflected in the close
+                oAlloc: [],
+                cAlloc: [],
+            }
+
             for (let i = 0; i < r.length; i++) {
 
                 // NOTE: this loop is processed strictly
@@ -83,7 +103,7 @@ export const createSimulator = (algo) => {
                 }
 
                 // process the orders in the sequence of execution.
-                // note that we don't know the sqeucne of limit 
+                // note that we don't know the sequence of limit 
                 // and stop orders
                 for (let ti = 0; ti < 4; ti++) {
 
@@ -92,12 +112,12 @@ export const createSimulator = (algo) => {
                     for (const p in state.positions) {
                         // all order types except mktThisClose
                         // use the prices at open of next bar
-                        prices[p] = ti === 0 ?
+                        prices[p] = ti === internalInterface.orderTypes.mktThisClose ?
                             (await state.positions[p].data.close.t(0)) :
                             (await state.positions[p].data.open.t(-1))
                     }
 
-                    // calculate nav
+                    // calculate and save nav
                     const nav = Object.keys(state.positions).reduce(
                         (acc, p) => acc + state.positions[p].qty * prices[p],
                         state.cash)
@@ -119,12 +139,35 @@ export const createSimulator = (algo) => {
                             state.cash -= cashFlow
                             state.positions[o.id].qty = qtyNew    
                         }
+                    }
 
+                    // save nav & allocations
+                    if (ti === internalInterface.orderTypes.mktThisClose) {
+                        result.t.push(internalInterface.t(0))
+                        result.c.push(nav)
+
+                        const alloc = []
+                        for (const p in state.positions) {
+                            alloc.push({sym: p, alloc: state.positions[p].qty * prices[p] / nav})
+                        }
+                        result.cAlloc.push(alloc)
+                    } else if (ti === internalInterface.orderTypes.mktNextOpen) {
+                        // simData.t added while processing mktThisClose
+                        result.o.push(nav)
+
+                        const alloc = []
+                        for (const p in state.positions) {
+                            alloc.push({sym: p, alloc: state.positions[p].qty * prices[p] / nav})
+                        }
+                        result.oAlloc.push(alloc)
                     }
 
                     //internalInterface.info(`${internalInterface.t(0)}: ${nav}`)
                 }
             }
+
+            // save simulation result
+            setProperty("result", result)
         },
 
         t: (offset) => {
@@ -157,7 +200,10 @@ export const createSimulator = (algo) => {
         report: (sim) => report(sim),
     }
 
-    const run = (sim) => algo.run(internalInterface)
+    const run = async (sim) => { 
+        await algo.run(internalInterface)
+        return getProperty("result")
+    }
     const report = (sim) => algo.report(internalInterface)
 
     return externalInterface
