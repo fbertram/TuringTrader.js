@@ -102,10 +102,14 @@ export const createSimulator = (algo) => {
                     }
                 }
 
+                // FIXME: if this is the last bar, switch mktNextOpen orders
+                // to mktThisClose. This is to make sure the final target 
+                // asset allocation matches the orders as close as possible
+
                 // process the orders in the sequence of execution.
                 // note that we don't know the sequence of limit 
                 // and stop orders
-                for (let ti = 0; ti < 4; ti++) {
+                for (let ti = 0; ti < internalInterface.orderTypes.length; ti++) {
 
                     // find the relevant asset prices
                     const prices = {}
