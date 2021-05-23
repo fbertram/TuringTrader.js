@@ -17,9 +17,9 @@ import { test_08_orders } from "./test-08-orders"
 const allTests = [
     /*test_01_hello,
     test_02_calendar,
-    test_03_cache,
+    test_03_cache,*/
     test_04_asset,
-    test_05_indicator_bar,
+    /*test_05_indicator_bar,
     test_06_indicator_num,
     test_07_time_series,*/
     test_08_orders,

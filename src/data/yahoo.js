@@ -14,7 +14,7 @@ export const loadAssetFromYahoo = (sim, name) => {
     // NOTE: JS has epochs in milliseconds, Yahoo expects seconds
     const period1 = Math.trunc(sim.startDate.getTime() / 1000)
     const period2 = Math.trunc(sim.endDate.getTime() / 1000)
-    const url = `http://l1-query.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&period1=${period1}&period2=${period2}`
+    const url = `http://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&period1=${period1}&period2=${period2}`
 
     // see https://developers.google.com/web/updates/2015/03/introduction-to-fetch
     const status = (response) => {
