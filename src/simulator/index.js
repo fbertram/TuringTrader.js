@@ -7,7 +7,6 @@
 
 import { createTradingCalendarUS } from "./trading-calendar-us"
 import { loadAsset } from "../data"
-import { cacheResult } from "./cache"
 
 export const createSimulator = (algo) => {
     const data = {
@@ -58,7 +57,7 @@ export const createSimulator = (algo) => {
         //----- methods
         info: (...args) => console.log("INFO: ", args),
         asset: (name) => loadAsset(internalInterface, name, algo.data),
-        cache: (id, fn) => cacheResult(internalInterface, id, fn),
+        cache: (id, fn) => data.cache[id] ?? (data.cache[id] = fn()),
 
         loop: async (fn) => {
             const r = internalInterface.tradingDays
