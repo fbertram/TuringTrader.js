@@ -6,7 +6,7 @@
 //==============================================================================
 
 // NOTE: this is a rather disappointing solution. however, 
-// it is good enough to keep us going for the next 2 years
+// it is good enough to keep us going for now
 // see here: https://www.nyse.com/markets/hours-calendars
 
 // additional info:

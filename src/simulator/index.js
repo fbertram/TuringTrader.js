@@ -6,12 +6,13 @@
 //==============================================================================
 
 import { createTradingCalendarUS } from "./trading-calendar-us"
-import { getAsset } from "../data"
+import { loadAsset } from "../data"
 import { cacheResult } from "./cache"
 
 export const createSimulator = (algo) => {
     const data = {
-        tradingCalendar: createTradingCalendarUS(),
+        tradingCalendar: algo.calendar ?? createTradingCalendarUS(),
+        cache: {},
     }
 
     const state = {
@@ -19,28 +20,27 @@ export const createSimulator = (algo) => {
         positions: {}
     }
 
-    //========== internal interface: methods called inside algorithms
+    //========== internal interface: methods available to algorithms
 
     const internalInterface = {
         //----- properties
         get startDate() {
-            return getProperty("startDate")
+            return data.tradingCalendar.startDate
         },
         set startDate(d) {
-            setProperty("startDate", d)
+            data.tradingCalendar.startDate = d
         },
         get endDate() {
-            return getProperty("endDate")
+            return data.tradingCalendar.endDate
         },
         set endDate(d) {
-            setProperty("endDate", d)
+            data.tradingCalendar.endDate = d
         },
-        get tradingDays() {
-            // FIXME: we should probably remove this method
-            const c = getProperty("tradingCalendar")
-            c.startDate = getProperty("startDate")
-            c.endDate = getProperty("endDate")
-            return c.tradingDays
+        get tradingCalendar() {
+            return data.tradingCalendar
+        },
+        get cache() {
+            return data.cache
         },
         orderTypes: {
             // NOTE: the values correspond to the
@@ -56,16 +56,13 @@ export const createSimulator = (algo) => {
             return getProperty("result")
         },
         //----- methods
-        // TODO: can we move all methods up here?
-        getProperty: (name) => getProperty(name),
-        setProperty: (name, value) => setProperty(name, value),
-        info: (...args) => info(args),
-        asset: (name) => asset(name),
-        cache: (id, fn) => cache(id, fn),
+        info: (...args) => console.log("INFO: ", args),
+        asset: (name) => loadAsset(internalInterface, name, algo.data),
+        cache: (id, fn) => cacheResult(internalInterface, id, fn),
 
         loop: async (fn) => {
             const r = internalInterface.tradingDays
-            setProperty("simTimeRange", r)
+            //setProperty("simTimeRange", r)
 
             const result = {
                 t: [],
@@ -87,7 +84,7 @@ export const createSimulator = (algo) => {
                 // in order to avoid any issues w/ the
                 // simulator's state
 
-                setProperty("simTimeIndex", i)
+                //setProperty("simTimeIndex", i)
                 const orders = await fn()
 
                 // make sure we have a position for each
@@ -171,7 +168,7 @@ export const createSimulator = (algo) => {
             }
 
             // save simulation result
-            setProperty("result", result)
+            data.result = result
         },
 
         t: (offset) => {
@@ -191,13 +188,7 @@ export const createSimulator = (algo) => {
         }
     }
 
-    const setProperty = (name, value) => (data[name] = value)
-    const getProperty = (name) => data[name]
-    const info = (args) => console.log("INFO: ", args)
-    const asset = (name) => getAsset(internalInterface, name)
-    const cache = (id, fn) => cacheResult(internalInterface, id, fn)
-
-    //========== external interface: methods called on simulator instance
+    //========== external interface: methods called on the simulator instance
 
     const externalInterface = {
         run: (sim) => run(sim),
@@ -206,7 +197,7 @@ export const createSimulator = (algo) => {
 
     const run = async (sim) => { 
         await algo.run(internalInterface)
-        return getProperty("result")
+        return data.result
     }
     const report = (sim) => algo.report(internalInterface)
 

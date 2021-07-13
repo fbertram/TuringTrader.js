@@ -5,7 +5,7 @@
 // History:     FUB, 2021v14, created
 //==============================================================================
 
-import { createSimulator } from "../simulator"
+import { createSimulator } from "turingtrader.js/src/simulator"
 
 export const test_09_child_strategy = async () => {
     // this tests shows how to run

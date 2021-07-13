@@ -33,87 +33,37 @@ export const loadAssetFromYahoo = (sim, name) => {
         .then(status)
         .then(json)
         .then((response) => {
-            // simulator timestamps
-            const st = sim.tradingDays
+            // deconstruct response from Yahoo!
+            const meta = response.chart.result[0].meta
+            const rawTimestamps = response.chart.result[0].timestamp
+            const rawOpen = response.chart.result[0].indicators.quote[0].open
+            const rawHigh = response.chart.result[0].indicators.quote[0].high
+            const rawLow = response.chart.result[0].indicators.quote[0].low
+            const rawClose = response.chart.result[0].indicators.quote[0].close
+            const rawVolume = response.chart.result[0].indicators.quote[0].volume
+            const adjustedClose = response.chart.result[0].indicators.adjclose[0].adjclose
 
-            // raw data from Yahoo
-            // timestamp is at exchange open (9:30 am, New York)
-            const ym = response.chart.result[0].meta
-            const yt = response.chart.result[0].timestamp
-            const yo = response.chart.result[0].indicators.quote[0].open
-            const yh = response.chart.result[0].indicators.quote[0].high
-            const yl = response.chart.result[0].indicators.quote[0].low
-            const yc = response.chart.result[0].indicators.quote[0].close
-            const yv = response.chart.result[0].indicators.quote[0].volume
-            const yac = response.chart.result[0].indicators.adjclose[0].adjclose
+            // calculate adjusted prices
+            const adjustFactor = adjustedClose.map((element, index) => element / rawClose[index])
+            const adjustedOpen = rawOpen.map((element, index) => element * adjustFactor[index])
+            const adjustedHigh = rawHigh.map((element, index) => element * adjustFactor[index])
+            const adjustedLow = rawLow.map((element, index) => element * adjustFactor[index])
+            const adjustedVolume = rawVolume.map((element, index) => element / adjustFactor[index])
 
-            const o = []
-            const h = []
-            const l = []
-            const c = []
-            const v = []
-            let yi = 0
+            // convert timestamps
+            const timestamps = rawTimestamps.map((element) => new Date(element * 1000))
 
-            // BUGBUG: this code will fail, if there are no data
-            // within the requested range
-
-            st.forEach((tt) => {
-                const t = Math.trunc(tt.getTime() / 1000)
-
-                if (t < yt[yi]) {
-                    // simulator timestamp before yahoo
-                    // => fill OHLCV w/ next open
-                    const f = yac[yi] / yc[yi]
-                    o.push(f * yo[yi])
-                    h.push(f * yo[yi])
-                    l.push(f * yo[yi])
-                    c.push(yac[yi])
-                    v.push(0.0)
-                } else if (t >= yt[yi]) {
-                    // simulator timestamp ahead of yahoo
-                    // => advance as far as possible
-                    let advancedSource = false
-                    while (yi < yt.length - 1 && t >= yt[yi + 1]) {
-                        yi++
-                        advancedSource = true
-                    }
-
-                    // now yi should point to the last bar *before* and
-                    // yi+1 to the first bar *after* the simulator timestamp
-
-                    if (advancedSource === true || yi === 0) {
-                        // did not reach end of yahoo data, yet
-                        // => fill OHLCV w/ most-recent bar
-                        const f = yac[yi] / yc[yi]
-                        o.push(f * yo[yi])
-                        h.push(f * yh[yi])
-                        l.push(f * yl[yi])
-                        c.push(yac[yi])
-                        v.push(yv[yi] / f)
-                    } else {
-                        // reached end of yahoo data
-                        // => fill OHLCV w/ last close
-                        const f = yac[yi] / yc[yi]
-                        o.push(yac[yi])
-                        h.push(yac[yi])
-                        l.push(yac[yi])
-                        c.push(yac[yi])
-                        v.push(0.0)
-                    }
-                }
-            })
-
-            return Promise.resolve({
+            return {
                 meta: {
                     ticker,
                 },
-                t: st,
-                o: o,
-                h: h,
-                l: l,
-                c: c,
-                v: v,
-            })
+                t: timestamps,
+                o: adjustedOpen,
+                h: adjustedHigh,
+                l: adjustedLow,
+                c: adjustedClose,
+                v: adjustedVolume,
+            }
         })
         // FIXME: what are we doing here?
         .catch((err) => sim.info(err))
