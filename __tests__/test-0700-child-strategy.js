@@ -1,10 +1,11 @@
 //==============================================================================
-// Name:        tests/test-09-child-strategy
+// Name:        tests/test-08---child-strategy
 // Project:     TuringTrader.js
-// Description: test #09: test child strategies.
-// History:     FUB, 2021v14, created
+// Description: test 0700: child strategies
+// History:     FUB, 2021vii14, created
 //==============================================================================
 
+/*
 import { createSimulator } from "turingtrader.js/src/simulator"
 
 export const test_09_child_strategy = async () => {
@@ -74,6 +75,7 @@ export const test_09_child_strategy = async () => {
     await sim.run()
     await sim.report()
 }
+*/
 
 //==============================================================================
 // end of file

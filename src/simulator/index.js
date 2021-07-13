@@ -15,6 +15,8 @@ export const createSimulator = (algo) => {
     }
 
     const state = {
+        tradingDays: null,
+        tradingDayIndex: null,
         cash: 0.0,
         positions: {}
     }
@@ -60,8 +62,7 @@ export const createSimulator = (algo) => {
         cache: (id, fn) => data.cache[id] ?? (data.cache[id] = fn()),
 
         loop: async (fn) => {
-            const r = internalInterface.tradingDays
-            //setProperty("simTimeRange", r)
+            state.tradingDays = internalInterface.tradingCalendar.tradingDays
 
             const result = {
                 t: [],
@@ -77,13 +78,13 @@ export const createSimulator = (algo) => {
                 cAlloc: [],
             }
 
-            for (let i = 0; i < r.length; i++) {
+            for (let i = 0; i < state.tradingDays.length; i++) {
 
                 // NOTE: this loop is processed strictly
                 // in order to avoid any issues w/ the
                 // simulator's state
 
-                //setProperty("simTimeIndex", i)
+                state.tradingDayIndex = i
                 const orders = await fn()
 
                 // make sure we have a position for each
@@ -176,10 +177,9 @@ export const createSimulator = (algo) => {
             // we can determine the last trading day of the month
             // it should be possible to do this, by using a larger range for
             // the sim time range
-            const r = getProperty("simTimeRange")
-            const i = Math.min(r.length - 1,
-                Math.max(0, getProperty("simTimeIndex") - offset))
-            return r[i]
+            const i = Math.min(state.tradingDays.length - 1,
+                Math.max(0, state.tradingDayIndex - offset))
+            return state.tradingDays[i]
         },
 
         deposit: (amount) => {
@@ -190,15 +190,9 @@ export const createSimulator = (algo) => {
     //========== external interface: methods called on the simulator instance
 
     const externalInterface = {
-        run: (sim) => run(sim),
-        report: (sim) => report(sim),
+        run: () => algo.run(internalInterface),
+        report: () => algo.report(internalInterface)
     }
-
-    const run = async (sim) => { 
-        await algo.run(internalInterface)
-        return data.result
-    }
-    const report = (sim) => algo.report(internalInterface)
 
     return externalInterface
 }
