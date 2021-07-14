@@ -6,7 +6,7 @@
 //==============================================================================
 
 /*
-import { createSimulator } from "turingtrader.js/src/simulator"
+import { createSimulator } from "../src"
 
 export const test_09_child_strategy = async () => {
     // this tests shows how to run

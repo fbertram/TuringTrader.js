@@ -5,10 +5,8 @@
 // History:     FUB, 2021vii13, created
 //==============================================================================
 
-import { TestScheduler } from "jest";
-
 /*
-import { createSimulator } from "../src/simulator"
+import { createSimulator } from "../src"
 
 //==============================================================================
 

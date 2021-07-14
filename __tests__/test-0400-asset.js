@@ -5,7 +5,7 @@
 // History:     FUB, 2021vii13, created
 //==============================================================================
 
-import { createSimulator } from "../src/simulator"
+import { createSimulator } from "../src"
 
 //==============================================================================
 const algo = {
