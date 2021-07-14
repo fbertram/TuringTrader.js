@@ -31,9 +31,9 @@ describe("test 0505: numberical indicators", () => {
     test("can calculate sma and ema", () => {
         return createSimulator(algo).run()
             .then((result) => {
-                console.log(result)
                 expect(result.id).toMatch(/^loadAsset\(spy,[0-9]+,[0-9]+\).close.sma\(5\).ema\(10\)$/)
                 expect(result.data.x.length).toEqual(83)
+                // TODO: add more verification here
             })
     })
 })

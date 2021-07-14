@@ -9,6 +9,8 @@
 // it is good enough to keep us going for now
 // see here: https://www.nyse.com/markets/hours-calendars
 
+// TODO: clarify Juneteenth situation and add 2022, 2023 holidays
+
 // additional info:
 // markets close early (1:00 pm Eastern) on
 // July 3rd, if July 4th is a weekday
@@ -429,8 +431,20 @@ export const createTradingCalendarUS = () => {
                 date = date.plus(_oneDay)
             }
 
+            // when we get here, date is already in the
+            // future (relative to endDate)
+            
+            // NOTE: we add the next trading day to the list
+            // this way algorithms can always determine the
+            // end of the month
+
+            /*while (!isExchangeOpen(date))
+                date = date.plus(_oneDay)
+
+            tradingDays.push(date.toJSDate())*/
+
             return tradingDays
-        }
+        },
     }
 }
 

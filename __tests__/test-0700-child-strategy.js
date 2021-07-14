@@ -77,5 +77,7 @@ export const test_09_child_strategy = async () => {
 }
 */
 
+test("dummy test", () => expect(true).toEqual(true))
+
 //==============================================================================
 // end of file
