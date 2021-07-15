@@ -1,6 +1,6 @@
 {
     "name": "turingtrader.js",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A backtesting engine for Node.js",
     "main": "index.js",
     "type": "module",
