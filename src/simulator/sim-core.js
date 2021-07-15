@@ -78,7 +78,7 @@ export const createSimulator = (algo) => {
                 cAlloc: [],
             }
 
-            for (let i = 0; i < state.tradingDays.length; i++) {
+            for (const i in state.tradingDays) {
 
                 // NOTE: this loop is processed strictly
                 // in order to avoid any issues w/ the
@@ -106,7 +106,7 @@ export const createSimulator = (algo) => {
                 // process the orders in the sequence of execution.
                 // note that we don't know the sequence of limit 
                 // and stop orders
-                for (let ti = 0; ti < internalInterface.orderTypes.length; ti++) {
+                for (const ti in internalInterface.orderTypes) {
 
                     // find the relevant asset prices
                     const prices = {}
@@ -126,7 +126,7 @@ export const createSimulator = (algo) => {
                     // process orders
                     for (const oi in orders) {
                         const o = orders[oi]
-                        if (o.type !== ti)
+                        if (o.type !== internalInterface.orderTypes[ti])
                             continue
 
                         const qtyCurrent = state.positions[o.id].qty
@@ -143,7 +143,7 @@ export const createSimulator = (algo) => {
                     }
 
                     // save nav & allocations
-                    if (ti === internalInterface.orderTypes.mktThisClose) {
+                    if (internalInterface.orderTypes[ti] === internalInterface.orderTypes.mktThisClose) {
                         result.t.push(internalInterface.t(0))
                         result.c.push(nav)
 
@@ -152,7 +152,7 @@ export const createSimulator = (algo) => {
                             alloc.push({sym: p, alloc: state.positions[p].qty * prices[p] / nav})
                         }
                         result.cAlloc.push(alloc)
-                    } else if (ti === internalInterface.orderTypes.mktNextOpen) {
+                    } else if (internalInterface.orderTypes[ti] === internalInterface.orderTypes.mktNextOpen) {
                         // simData.t added while processing mktThisClose
                         result.o.push(nav)
 
@@ -167,8 +167,7 @@ export const createSimulator = (algo) => {
                 }
             }
 
-            // save simulation result
-            data.result = result
+            return result
         },
 
         t: (offset) => {

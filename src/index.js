@@ -6,6 +6,7 @@
 //==============================================================================
 
 export { createSimulator } from "./simulator/sim-core"
+export { createReport } from "./reports/metrics"
 
 //==============================================================================
 // end of file

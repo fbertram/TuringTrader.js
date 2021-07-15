@@ -12,8 +12,9 @@ export const loadAssetFromYahoo = (sim, name) => {
     const ticker = name
 
     // NOTE: JS has epochs in milliseconds, Yahoo expects seconds
-    const period1 = Math.trunc(sim.startDate.getTime() / 1000)
-    const period2 = Math.trunc(sim.endDate.getTime() / 1000)
+    const day = 24 * 60 * 60
+    const period1 = Math.trunc(sim.startDate.getTime() / 1000) - 5 * day
+    const period2 = Math.trunc(sim.endDate.getTime() / 1000) + 5 * day
     const url = `http://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&period1=${period1}&period2=${period2}`
 
     // see https://developers.google.com/web/updates/2015/03/introduction-to-fetch
@@ -51,6 +52,8 @@ export const loadAssetFromYahoo = (sim, name) => {
             const adjustedVolume = rawVolume.map((element, index) => element / adjustFactor[index])
 
             // convert timestamps
+            // NOTE: Yahoo! timestamps are at the open (9:30 am),
+            // TuringTrader.js timestamps are at the close (4:00 pm)
             const timestamps = rawTimestamps.map((element) => new Date(element * 1000))
 
             return {

@@ -8,7 +8,8 @@
         "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
         "build": "npx babel src --out-dir dist",
         "start": "npx babel src --watch --out-dir dist",
-        "test": "jest"
+        "test": "jest",
+        "test-single": "jest --testPathPattern=test-5000-"
     },
     "jest": {
         "collectCoverage": false
