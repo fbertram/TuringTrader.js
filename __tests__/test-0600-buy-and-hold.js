@@ -38,7 +38,8 @@ describe("test 0600: buy and hold", () => {
     test("can calculate equity curve", () => {
         return createSimulator(algo).run()
             .then((result) => {
-                console.log(result)
+                // TODO: add proper tests here
+                //console.log(result)
                 //expect(result.id).toMatch(/^loadAsset\(spy,[0-9]+,[0-9]+\).close.sma\(5\).ema\(10\)$/)
                 //expect(result.data.x.length).toEqual(83)
                 expect(true).toEqual(true)

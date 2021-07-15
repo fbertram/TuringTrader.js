@@ -1,12 +1,11 @@
 {
     "name": "turingtrader.js",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A backtesting engine for Node.js",
-    "main": "index.js",
-    "type": "module",
+    "main": "dist/index.js",
     "scripts": {
         "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-        "build": "npx babel src --out-dir dist",
+        "build": "rmdir dist /q /s && npx babel src --out-dir dist",
         "start": "npx babel src --watch --out-dir dist",
         "test": "jest",
         "test-single": "jest --testPathPattern=test-5000-"
@@ -49,6 +48,7 @@
         "prettier": "2.2.1"
     },
     "dependencies": {
+        "@babel/polyfill": "^7.12.1",
         "luxon": "^1.26.0",
         "node-fetch": "^2.6.1"
     }

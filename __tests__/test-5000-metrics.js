@@ -29,6 +29,7 @@ describe("test 5000: simple report", () => {
         return createSimulator(algo).run()
             .then((result) => createReport(result))
             .then((report) => {
+                // TODO: add proper tests here
                 const metrics = report.metrics
                 console.log(metrics)
             })
