@@ -5,7 +5,7 @@
 // History:     FUB, 2021iv30, created
 //==============================================================================
 
-// NOTE: this is a rather disappointing solution. however, 
+// NOTE: this is a rather disappointing solution. however,
 // it is good enough to keep us going for now
 // see here: https://www.nyse.com/markets/hours-calendars
 
@@ -371,51 +371,52 @@ export const createTradingCalendarUS = () => {
         },
 
         get tradingDays() {
-
             const isExchangeOpen = (dateTime) => {
                 const day = dateTime.setZone(_zone).weekday
                 const epoch = dateTime.toJSDate().getTime()
-                const isHoliday = _holidays.some(d => d.getTime() === epoch)
+                const isHoliday = _holidays.some((d) => d.getTime() === epoch)
 
                 return day !== 6 && day !== 7 && !isHoliday
             }
 
             const previousClosingTime = (dateTime) => {
-                const timeOfClose = dateTime
-                    .setZone(_zone)
-                    .set({
-                        hour: _hour,
-                        minute: _minute,
-                        second: 0,
-                        millisecond: 0
-                    })
+                const timeOfClose = dateTime.setZone(_zone).set({
+                    hour: _hour,
+                    minute: _minute,
+                    second: 0,
+                    millisecond: 0,
+                })
 
                 let previousClose = timeOfClose
-                while (previousClose > dateTime || !isExchangeOpen(previousClose))
+                while (
+                    previousClose > dateTime ||
+                    !isExchangeOpen(previousClose)
+                )
                     previousClose = previousClose.minus(_oneDay)
 
                 return previousClose
             }
 
             // startDate is the timestamp of the first bar's close
-            const earliestDate = DateTime.fromFormat(`1/2/1990 ${_time} ${_zone}`, _format)
-            const startProperty = data.hasOwnProperty('startDate') ?
-                DateTime.fromJSDate(data.startDate) :
-                earliestDate
+            const earliestDate = DateTime.fromFormat(
+                `1/2/1990 ${_time} ${_zone}`,
+                _format
+            )
+            const startProperty = data.hasOwnProperty("startDate")
+                ? DateTime.fromJSDate(data.startDate)
+                : earliestDate
             const startDate = previousClosingTime(
-                startProperty > earliestDate ?
-                    startProperty :
-                    earliestDate)
+                startProperty > earliestDate ? startProperty : earliestDate
+            )
 
             // endDate is the timestamp of the last bar's close
             const latestDate = DateTime.now()
-            const endProperty = data.hasOwnProperty('endDate') ?
-                DateTime.fromJSDate(data.endDate) :
-                latestDate
+            const endProperty = data.hasOwnProperty("endDate")
+                ? DateTime.fromJSDate(data.endDate)
+                : latestDate
             const endDate = previousClosingTime(
-                endProperty < latestDate ?
-                    endProperty :
-                    latestDate)
+                endProperty < latestDate ? endProperty : latestDate
+            )
 
             const tradingDays = []
             let date = startDate
@@ -425,15 +426,14 @@ export const createTradingCalendarUS = () => {
             // adjust the closing time for daylight savings.
 
             while (date <= endDate) {
-                if (isExchangeOpen(date))
-                    tradingDays.push(date.toJSDate())
+                if (isExchangeOpen(date)) tradingDays.push(date.toJSDate())
 
                 date = date.plus(_oneDay)
             }
 
             // when we get here, date is already in the
             // future (relative to endDate)
-            
+
             // NOTE: we add the next trading day to the list
             // this way algorithms can always determine the
             // end of the month

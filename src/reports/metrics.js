@@ -9,19 +9,21 @@ const dayInMs = 24 * 60 * 60 * 1000
 const yearInMs = 365.25 * dayInMs
 
 export const createReport = (simResult) => {
-
     return {
         get metrics() {
             //----- trading range
             const firstBar = simResult.t[0]
             const lastBar = simResult.t[simResult.t.length - 1]
-            const reportDays = (lastBar.getTime() - firstBar.getTime()) / dayInMs
-            const reportYears = (lastBar.getTime() - firstBar.getTime()) / yearInMs
+            const reportDays =
+                (lastBar.getTime() - firstBar.getTime()) / dayInMs
+            const reportYears =
+                (lastBar.getTime() - firstBar.getTime()) / yearInMs
 
             //----- CAGR
             const startValue = simResult.o[0]
             const endValue = simResult.c[simResult.c.length - 1]
-            const cagr = 100 * (Math.pow(endValue / startValue, 1 / reportYears) - 1)
+            const cagr =
+                100 * (Math.pow(endValue / startValue, 1 / reportYears) - 1)
 
             //----- drawdown
             let maxClose = 0
@@ -44,7 +46,7 @@ export const createReport = (simResult) => {
         },
         get chartData() {
             return {}
-        }
+        },
     }
 }
 

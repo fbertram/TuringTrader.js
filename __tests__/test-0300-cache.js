@@ -30,14 +30,13 @@ const algo = {
         return {
             toDoCounter,
             result1,
-            result2
+            result2,
         }
     },
 }
 
 //==============================================================================
 describe("test 0300: cache", () => {
-
     const sim = createSimulator(algo)
 
     test("can read results from cache", () => {

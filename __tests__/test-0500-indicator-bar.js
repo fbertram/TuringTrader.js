@@ -21,16 +21,16 @@ const algo = {
 
         return {
             id: c.id,
-            data: await c.data
+            data: await c.data,
         }
     },
 }
 
 //==============================================================================
 describe("test 0500: indicator on bar", () => {
-
     test("can use close indicator", () => {
-        return createSimulator(algo).run()
+        return createSimulator(algo)
+            .run()
             .then((result) => {
                 expect(result.id).toMatch(/^loadAsset\(spy,[0-9]+,[0-9]+\).close$/)
                 expect(result.data.x.length).toEqual(83)

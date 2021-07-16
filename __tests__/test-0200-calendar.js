@@ -48,11 +48,11 @@ const algo = {
 
 //==============================================================================
 describe("test 0200: trading calendar", () => {
-
     // see https://jestjs.io/docs/asynchronous
 
     test("correct number of trading days", () => {
-        return createSimulator(algo).run()
+        return createSimulator(algo)
+            .run()
             .then((timestamps) => {
                 expect(timestamps.length).toEqual(83)
             })

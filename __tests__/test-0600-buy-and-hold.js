@@ -23,7 +23,6 @@ const algo = {
         // returns the simulation result
 
         return sim.loop(() => {
-
             // note how we return the target allocation
             // from inside the sim.loop as an array
 
@@ -34,9 +33,9 @@ const algo = {
 
 //==============================================================================
 describe("test 0600: buy and hold", () => {
-
     test("can calculate equity curve", () => {
-        return createSimulator(algo).run()
+        return createSimulator(algo)
+            .run()
             .then((result) => {
                 // TODO: add proper tests here
                 //console.log(result)

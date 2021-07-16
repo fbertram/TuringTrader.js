@@ -41,20 +41,34 @@ export const loadAssetFromYahoo = (sim, name) => {
             const rawHigh = response.chart.result[0].indicators.quote[0].high
             const rawLow = response.chart.result[0].indicators.quote[0].low
             const rawClose = response.chart.result[0].indicators.quote[0].close
-            const rawVolume = response.chart.result[0].indicators.quote[0].volume
-            const adjustedClose = response.chart.result[0].indicators.adjclose[0].adjclose
+            const rawVolume =
+                response.chart.result[0].indicators.quote[0].volume
+            const adjustedClose =
+                response.chart.result[0].indicators.adjclose[0].adjclose
 
             // calculate adjusted prices
-            const adjustFactor = adjustedClose.map((element, index) => element / rawClose[index])
-            const adjustedOpen = rawOpen.map((element, index) => element * adjustFactor[index])
-            const adjustedHigh = rawHigh.map((element, index) => element * adjustFactor[index])
-            const adjustedLow = rawLow.map((element, index) => element * adjustFactor[index])
-            const adjustedVolume = rawVolume.map((element, index) => element / adjustFactor[index])
+            const adjustFactor = adjustedClose.map(
+                (element, index) => element / rawClose[index]
+            )
+            const adjustedOpen = rawOpen.map(
+                (element, index) => element * adjustFactor[index]
+            )
+            const adjustedHigh = rawHigh.map(
+                (element, index) => element * adjustFactor[index]
+            )
+            const adjustedLow = rawLow.map(
+                (element, index) => element * adjustFactor[index]
+            )
+            const adjustedVolume = rawVolume.map(
+                (element, index) => element / adjustFactor[index]
+            )
 
             // convert timestamps
             // NOTE: Yahoo! timestamps are at the open (9:30 am),
             // TuringTrader.js timestamps are at the close (4:00 pm)
-            const timestamps = rawTimestamps.map((element) => new Date(element * 1000))
+            const timestamps = rawTimestamps.map(
+                (element) => new Date(element * 1000)
+            )
 
             return {
                 meta: {

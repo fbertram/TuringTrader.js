@@ -11,12 +11,11 @@ import { createSimulator } from "../src"
 const hello = "hello trader"
 
 const algo = {
-    run: () => hello
+    run: () => hello,
 }
 
 //==============================================================================
 describe("test 0100: hello", () => {
-
     const sim = createSimulator(algo)
 
     test("has run method", () => {

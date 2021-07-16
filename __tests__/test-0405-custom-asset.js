@@ -13,7 +13,7 @@ const algo = {
     data: (sim, name) => {
         const start = sim.startDate
         const end = sim.endDate
-        
+
         return new Promise((resolve, reject) => {
             // typically this would be a fetch. we simulate
             // some response time using a timer.
@@ -62,16 +62,16 @@ const algo = {
 
         return {
             id: theAsset.id,
-            data: await theAsset.data
+            data: await theAsset.data,
         }
     },
 }
 
 //==============================================================================
 describe("test 0405: custom asset", () => {
-
     test("can use custom data source", () => {
-        return createSimulator(algo).run()
+        return createSimulator(algo)
+            .run()
             .then((result) => {
                 expect(result.id).toMatch(/^loadAsset\(custom,[0-9]+,[0-9]+\)$/)
                 expect(result.data.meta.ticker).toEqual("custom")

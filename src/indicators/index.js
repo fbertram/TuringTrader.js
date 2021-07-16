@@ -21,23 +21,22 @@ export const IndicatorsNum = (sim, id0, promise0) => ({
         // NOTE: an indicator's time series may have a different length
         // than the simulator's, e.g. monthly bars. Therefore, we need
         // to spend some effort here to find the correct index
-        return promise0
-            .then(data => {
-                const simTime = sim.t(0)
-                let idxNow = 0
-                // TODO: need to optimize this
-                for (let i = 0; i < data.t.length; i++) {
-                    if (data.t[i] <= simTime)
-                        idxNow = i
-                    else
-                        break
-                }
+        return promise0.then((data) => {
+            const simTime = sim.t(0)
+            let idxNow = 0
+            // TODO: need to optimize this
+            for (let i = 0; i < data.t.length; i++) {
+                if (data.t[i] <= simTime) idxNow = i
+                else break
+            }
 
-                const idxOffset = Math.min(data.t.length - 1,
-                    Math.max(0, idxNow - offset))
+            const idxOffset = Math.min(
+                data.t.length - 1,
+                Math.max(0, idxNow - offset)
+            )
 
-                return data.x[idxOffset]
-            })
+            return data.x[idxOffset]
+        })
     },
     ...IndicatorsTrend(sim, id0, promise0),
 })
@@ -56,7 +55,7 @@ export const IndicatorsBar = (sim, id0, promise0) => ({
         data: IndicatorsOHLCV(sim, id0, promise0),
         alloc,
         type,
-        price
+        price,
     }),
     ...IndicatorsOHLCV(sim, id0, promise0),
 })

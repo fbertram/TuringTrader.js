@@ -4,22 +4,20 @@
 // History:     FUB, 2021v07, created
 //==============================================================================
 
-import { IndicatorsNum } from ".";
+import { IndicatorsNum } from "."
 
 export const IndicatorsOHLCV = (sim, id0, promise0) => ({
-
     get open() {
         const id = `${id0}.open`
 
-        return sim.cache(
-            id,
-            () => IndicatorsNum(
-                sim, id,
-                promise0
-                    .then(data => ({
-                        t: data.t,
-                        x: data.o,
-                    }))
+        return sim.cache(id, () =>
+            IndicatorsNum(
+                sim,
+                id,
+                promise0.then((data) => ({
+                    t: data.t,
+                    x: data.o,
+                }))
             )
         )
     },
@@ -28,15 +26,14 @@ export const IndicatorsOHLCV = (sim, id0, promise0) => ({
     get high() {
         const id = `${id0}.high`
 
-        return sim.cache(
-            id,
-            () => IndicatorsNum(
-                sim, id,
-                promise0
-                    .then(data => ({
-                        t: data.t,
-                        x: data.h,
-                    }))
+        return sim.cache(id, () =>
+            IndicatorsNum(
+                sim,
+                id,
+                promise0.then((data) => ({
+                    t: data.t,
+                    x: data.h,
+                }))
             )
         )
     },
@@ -45,15 +42,14 @@ export const IndicatorsOHLCV = (sim, id0, promise0) => ({
     get low() {
         const id = `${id0}.low`
 
-        return sim.cache(
-            id,
-            () => IndicatorsNum(
-                sim, id,
-                promise0
-                    .then(data => ({
-                        t: data.t,
-                        x: data.l,
-                    }))
+        return sim.cache(id, () =>
+            IndicatorsNum(
+                sim,
+                id,
+                promise0.then((data) => ({
+                    t: data.t,
+                    x: data.l,
+                }))
             )
         )
     },
@@ -62,15 +58,14 @@ export const IndicatorsOHLCV = (sim, id0, promise0) => ({
     get close() {
         const id = `${id0}.close`
 
-        return sim.cache(
-            id,
-            () => IndicatorsNum(
-                sim, id,
-                promise0
-                    .then(data => ({
-                        t: data.t,
-                        x: data.c,
-                    }))
+        return sim.cache(id, () =>
+            IndicatorsNum(
+                sim,
+                id,
+                promise0.then((data) => ({
+                    t: data.t,
+                    x: data.c,
+                }))
             )
         )
     },
@@ -79,15 +74,14 @@ export const IndicatorsOHLCV = (sim, id0, promise0) => ({
     get volume() {
         const id = `${id0}.volume`
 
-        return sim.cache(
-            id,
-            () => IndicatorsNum(
-                sim, id,
-                promise0
-                    .then(data => ({
-                        t: data.t,
-                        x: data.v,
-                    }))
+        return sim.cache(id, () =>
+            IndicatorsNum(
+                sim,
+                id,
+                promise0.then((data) => ({
+                    t: data.t,
+                    x: data.v,
+                }))
             )
         )
     },

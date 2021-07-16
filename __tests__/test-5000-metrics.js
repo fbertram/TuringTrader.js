@@ -18,15 +18,13 @@ const algo = {
     },
 }
 
-const report = {
-
-}
+const report = {}
 
 //==============================================================================
 describe("test 5000: simple report", () => {
-
     test("can calculate basic metrics", () => {
-        return createSimulator(algo).run()
+        return createSimulator(algo)
+            .run()
             .then((result) => createReport(result))
             .then((report) => {
                 // TODO: add proper tests here

@@ -20,17 +20,17 @@ const algo = {
 
         return {
             id: spy.id,
-            data: await spy.data
+            data: await spy.data,
         }
     },
-    report: (sim) => { },
+    report: (sim) => {},
 }
 
 //==============================================================================
 describe("test 0400: asset", () => {
-
     test("can download asset quotes", () => {
-        return createSimulator(algo).run()
+        return createSimulator(algo)
+            .run()
             .then((result) => {
                 expect(result.id).toMatch(/^loadAsset\(spy,[0-9]+,[0-9]+\)$/)
                 expect(result.data.meta.ticker).toEqual("spy")
