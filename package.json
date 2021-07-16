@@ -1,6 +1,6 @@
 {
     "name": "turingtrader.js",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "A backtesting engine for Node.js",
     "main": "dist/index.js",
     "scripts": {
@@ -48,7 +48,7 @@
         "prettier": "2.2.1"
     },
     "dependencies": {
-        "@babel/polyfill": "^7.12.1",
+        "@babel/runtime": "^7.14.6",
         "luxon": "^1.26.0",
         "node-fetch": "^2.6.1"
     }
