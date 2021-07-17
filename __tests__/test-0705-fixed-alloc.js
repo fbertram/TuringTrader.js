@@ -1,16 +1,15 @@
 //==============================================================================
 // Name:        tests/test-0705-fixed-alloc
 // Project:     TuringTrader.js
-// Description: test 0705: fixed allocation w/ monthly rebalancing
+// Description: test 0705: 60/40 portfolio w/ monthly rebalancing
 // History:     FUB, 2021vii17, created
 //==============================================================================
 
 import { createSimulator, createReport } from "../src"
 
-//==============================================================================
-
+//------------------------------------------------------------------------------
 const algo = {
-    run: async (sim) => {
+    run: (sim) => {
         sim.startDate = new Date("2020-01-01T18:00:00.000-05:00") // 6pm in America/New York (winter)
         sim.endDate = new Date("2020-12-31T18:00:00.000-05:00") // 6pm in America/New York (winter)
 
@@ -40,8 +39,8 @@ const algo = {
     },
 }
 
-//==============================================================================
-describe("test 0705: 60/40 buy-and-hold", () => {
+//------------------------------------------------------------------------------
+describe("test 0705: 60/40 w/ monthly rebal", () => {
 
     test("can calculate equity curve", () => {
         return createSimulator(algo)

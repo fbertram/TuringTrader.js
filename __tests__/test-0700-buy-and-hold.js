@@ -7,8 +7,7 @@
 
 import { createSimulator, createReport } from "../src"
 
-//==============================================================================
-
+//------------------------------------------------------------------------------
 const algo = {
     run: async (sim) => {
         sim.startDate = new Date("2020-01-01T18:00:00.000-05:00") // 6pm in America/New York (winter)
@@ -31,7 +30,7 @@ const algo = {
     },
 }
 
-//==============================================================================
+//------------------------------------------------------------------------------
 describe("test 0700: single-asset buy and hold", () => {
     test("can calculate equity curve", () => {
         return createSimulator(algo)
