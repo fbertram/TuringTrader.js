@@ -8,7 +8,7 @@
         "build": "rmdir dist /q /s && npx babel src --out-dir dist",
         "start": "npx babel src --watch --out-dir dist",
         "test": "jest",
-        "test-single": "jest --testPathPattern=test-5000-"
+        "test-single": "jest --testPathPattern=test-0705-"
     },
     "jest": {
         "collectCoverage": false

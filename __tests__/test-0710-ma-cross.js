@@ -1,5 +1,5 @@
 //==============================================================================
-// Name:        tests/test-0610-ma-cross
+// Name:        tests/test-0710-ma-cross
 // Project:     TuringTrader.js
 // Description: test 0610: simple moving-average crossover strategy
 // History:     FUB, 2021vii13, created

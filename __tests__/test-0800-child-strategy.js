@@ -1,7 +1,7 @@
 //==============================================================================
-// Name:        tests/test-08---child-strategy
+// Name:        tests/test-0800-child-strategy
 // Project:     TuringTrader.js
-// Description: test 0700: child strategies
+// Description: test 0800: child strategies
 // History:     FUB, 2021vii14, created
 //==============================================================================
 
