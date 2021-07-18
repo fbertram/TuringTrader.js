@@ -14,8 +14,8 @@ This project is work in progress and in a very early stage. Here is what's curre
 * [load data from Yahoo Finance](https://github.com/fbertram/TuringTrader.js/blob/main/__tests__/test-0400-asset.js)
 * [load data from custom sources and resample to trading calendar](https://github.com/fbertram/TuringTrader.js/blob/main/__tests__/test-0405-custom-asset.js)
 * [calculate simple indicators, including EMA and SMA](https://github.com/fbertram/TuringTrader.js/blob/main/__tests__/test-0505-indicator-num.js)
-* [simulate simple buy-and-hold portfolios](https://github.com/fbertram/TuringTrader.js/blob/main/__tests__/test-0600-buy-and-hold.js)
-* [calculate rudimentary reports](https://github.com/fbertram/TuringTrader.js/blob/main/__tests__/test-5000-metrics.js)
+* [calculate rudimentary reports](https://github.com/fbertram/TuringTrader.js/blob/main/__tests__/test-0600-metrics.js)
+* [simulate simple buy-and-hold portfolios](https://github.com/fbertram/TuringTrader.js/blob/main/__tests__/test-0705-fixed-alloc.js)
 
 The project is part of new and exciting features on [TuringTrader.com](https://www.turingtrader.com/), which we are planning to release throughout 2021. Consequently, we are committed to reaching a well-rounded featureset and production quality within this timeframe.
 
