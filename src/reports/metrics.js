@@ -45,7 +45,7 @@ export const createReport = (simResult) => {
             }
         },
         get chartData() {
-            return {}
+            return simResult
         },
     }
 }
