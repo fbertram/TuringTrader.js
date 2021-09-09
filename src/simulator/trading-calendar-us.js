@@ -371,6 +371,10 @@ export const createTradingCalendarUS = () => {
         },
 
         get tradingDays() {
+            // return result from cache (1st attempt: same request)
+            if (data.startDate && data.enddate && data.cache?.startDate1 == data.startDate && data.cache?.endDate1 == data.endDate)
+                return cache.tradingDays
+
             const isExchangeOpen = (dateTime) => {
                 const day = dateTime.setZone(_zone).weekday
                 const epoch = dateTime.toJSDate().getTime()
@@ -418,6 +422,11 @@ export const createTradingCalendarUS = () => {
                 endProperty < latestDate ? endProperty : latestDate
             )
 
+            // return result from cache (2nd attempt: same prev closing times)
+            if (data.cache?.startDate2 == startDate && data.cache?.endDate2 == endDate)
+                return cache.tradingDays
+
+            // no cached result, recalculate
             const tradingDays = []
             let date = startDate
 
@@ -442,6 +451,15 @@ export const createTradingCalendarUS = () => {
                 date = date.plus(_oneDay)
 
             tradingDays.push(date.toJSDate())*/
+
+            // cache the result
+            data.cache = {
+                startDate1: data.startDate,
+                startDate2: startDate,
+                endDate1: data.endDate,
+                endDate2: endDate,
+                tradingDays
+            }
 
             return tradingDays
         },
