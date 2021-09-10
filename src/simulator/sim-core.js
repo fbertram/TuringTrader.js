@@ -150,13 +150,13 @@ export const createSimulator = (algo) => {
                         result.c.push(nav)
 
                         const alloc = []
-                        for (const p in state.positions) {
+                        /*for (const p in state.positions) {
                             alloc.push({
                                 sym: p,
                                 alloc:
                                     (state.positions[p].qty * prices[p]) / nav,
                             })
-                        }
+                        }*/
                         result.cAlloc.push(alloc)
                     } else if (
                         internalInterface.orderTypes[ti] ===
@@ -166,13 +166,13 @@ export const createSimulator = (algo) => {
                         result.o.push(nav)
 
                         const alloc = []
-                        for (const p in state.positions) {
+                        /*for (const p in state.positions) {
                             alloc.push({
                                 sym: p,
                                 alloc:
                                     (state.positions[p].qty * prices[p]) / nav,
                             })
-                        }
+                        }*/
                         result.oAlloc.push(alloc)
                     }
 
