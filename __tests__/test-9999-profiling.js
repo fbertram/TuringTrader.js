@@ -12,14 +12,12 @@ const algo = {
     run: (sim) => {
         sim.startDate = new Date("2007-01-01T18:00:00.000-05:00") // 6pm in America/New York (winter)
         sim.endDate = new Date("2020-12-31T18:00:00.000-05:00") // 6pm in America/New York (winter)
-
         sim.deposit(1000)
 
         return sim.loop(async () => {
             const orders = []
 
             if (sim.t(0).getMonth() !== sim.t(-1).getMonth()) {
-
                 orders.push(sim.asset("spy").alloc(0.6, sim.orderTypes.mktNextOpen))
                 orders.push(sim.asset("agg").alloc(0.4, sim.orderTypes.mktNextOpen))
             }
@@ -30,7 +28,7 @@ const algo = {
 }
 
 //------------------------------------------------------------------------------
-describe("test 9999: 60/40 w/ monthly rebal", () => {
+describe("test 9999: profiling portfolio", () => {
 
     test("can calculate equity curve", () => {
 
@@ -50,7 +48,7 @@ describe("test 9999: 60/40 w/ monthly rebal", () => {
                 const profilerRun = profiler1 - profiler0
                 const profilerReport = profiler2 - profiler1
 
-                expect(profilerRun).toBeLessThan(20000)
+                expect(profilerRun).toBeLessThan(10000)
             })
     })
 })
