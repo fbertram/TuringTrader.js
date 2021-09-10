@@ -1,15 +1,16 @@
 {
     "name": "turingtrader.js",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "A backtesting engine for Node.js",
     "main": "dist/index.js",
     "scripts": {
         "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
         "build": "rmdir dist /q /s && npx babel src --out-dir dist",
-        "publish": "npm publish",
+        "deploy": "npm publish",
         "start": "npx babel src --watch --out-dir dist",
         "test": "jest",
-        "test-single": "jest --testPathPattern=test-9999-"
+        "test-single": "jest --testPathPattern=test-9999-",
+        "profile": "node --prof ./dist/profiling"
     },
     "jest": {
         "collectCoverage": false
