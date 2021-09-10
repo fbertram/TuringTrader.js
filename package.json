@@ -9,7 +9,7 @@
         "publish": "npm publish",
         "start": "npx babel src --watch --out-dir dist",
         "test": "jest",
-        "test-single": "jest --testPathPattern=test-0705-"
+        "test-single": "jest --testPathPattern=test-9999-"
     },
     "jest": {
         "collectCoverage": false
