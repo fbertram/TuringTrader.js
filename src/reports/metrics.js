@@ -73,7 +73,8 @@ export const createReport = (simResult) => {
                     const nav = simResult.c[idx]
 
                     if (nav >= simResult.c[maxIdx]) {
-                        maxFlat = Math.max(maxFlat, (t.getTime() - simResult.t[maxIdx].getTime()) / dayInMs)
+                        maxFlat = Math.max(maxFlat, 
+                            Math.round((t.getTime() - simResult.t[maxIdx].getTime()) / dayInMs))
                         maxIdx = idx
                     }
                 }

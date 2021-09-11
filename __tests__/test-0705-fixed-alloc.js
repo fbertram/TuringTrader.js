@@ -10,7 +10,7 @@ import { createSimulator, createReport } from "../src"
 //------------------------------------------------------------------------------
 const algo = {
     run: (sim) => {
-        sim.startDate = new Date("2020-01-01T18:00:00.000-05:00") // 6pm in America/New York (winter)
+        sim.startDate = new Date("2007-01-01T18:00:00.000-05:00") // 6pm in America/New York (winter)
         sim.endDate = new Date("2020-12-31T18:00:00.000-05:00") // 6pm in America/New York (winter)
 
         // note how we are depositing funds
@@ -48,14 +48,20 @@ describe("test 0705: 60/40 w/ monthly rebal", () => {
             .then((result) => createReport(result))
             .then((report) => {
                 const metrics = report.metrics
-                expect(metrics.firstBar).toEqual(new Date("2019-12-31T21:00:00.000Z"))
+                //console.log(metrics)
+                expect(metrics.firstBar).toEqual(new Date("2006-12-29T21:00:00.000Z"))
                 expect(metrics.lastBar).toEqual(new Date("2020-12-31T21:00:00.000Z"))
-                expect(metrics.reportDays).toEqual(366)
-                expect(metrics.reportYears).toBeCloseTo(0.99931, 2)
-                expect(metrics.startValue).toBeCloseTo(1000.0000, 2)
-                expect(metrics.endValue).toBeCloseTo(1140.5224, 2)
-                expect(metrics.cagr).toBeCloseTo(14.0215, 2)
-                expect(metrics.mdd).toBeCloseTo(21.4371, 2)
+                expect(metrics.reportDays).toEqual(5116)
+                expect(metrics.reportYears).toBeCloseTo(14.0068, 2)
+                expect(metrics.startValue).toBeCloseTo(1000.0000, 1)
+                expect(metrics.endValue).toBeCloseTo(2817.3723, 1)
+                expect(metrics.cagr).toBeCloseTo(7.6753, 2)
+                expect(metrics.stdev).toBeCloseTo(11.0633, 2)
+                expect(metrics.mdd).toBeCloseTo(35.6885, 2)
+                expect(metrics.mfd).toEqual(1164)
+                expect(metrics.ulcer).toBeCloseTo(7.4806, 2)
+                expect(metrics.sharpe).toBeCloseTo(0.6938, 2)
+                expect(metrics.martin).toBeCloseTo(1.0260, 2)
             })
     })
 })

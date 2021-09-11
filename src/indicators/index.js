@@ -9,8 +9,7 @@ import { IndicatorsTrend } from "./trend"
 
 export const IndicatorsNum = (sim, id0, promise0) => {
 
-    // internal status
-    let idxNow = 0
+    let lookup = null
 
     return {
         //---------- properties
@@ -27,16 +26,14 @@ export const IndicatorsNum = (sim, id0, promise0) => {
             // than the simulator's, e.g. monthly bars. Therefore, we need
             // to spend some effort here to find the correct index
 
-            // NOTE2: because the simulator never runs backwards, we can 
-            // start the search for the 'now' timestamp where we left off 
-            // on a previous call
-
             return promise0.then((data) => {
-                const simTime = sim.t(0)
-                for (let i = idxNow; i < data.t.length; i++) {
-                    if (data.t[i] <= simTime) idxNow = i
-                    else break
+                const simTime = sim.t(0).getTime()
+                if (!lookup) {
+                    lookup = {}
+                    data.t.forEach((t, idx) => lookup[t.getTime()] = idx)
                 }
+                const idxNow = lookup[simTime]
+                //const idxNow = data.t.findIndex((t) => t.getTime() === simTime)
 
                 const idxOffset = Math.min(
                     data.t.length - 1,

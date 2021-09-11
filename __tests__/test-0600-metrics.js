@@ -28,7 +28,6 @@ describe("test 5000: simple report", () => {
             .then((result) => createReport(result))
             .then((report) => {
                 const metrics = report.metrics
-                //console.log(metrics)
                 expect(metrics.firstBar).toEqual(new Date("2006-12-29T21:00:00.000Z"))
                 expect(metrics.lastBar).toEqual(new Date("2020-12-31T21:00:00.000Z"))
                 expect(metrics.reportDays).toEqual(5116)
@@ -42,7 +41,6 @@ describe("test 5000: simple report", () => {
                 expect(metrics.ulcer).toBeCloseTo(16.3702, 2)
                 expect(metrics.sharpe).toBeCloseTo(0.3843, 2)
                 expect(metrics.martin).toBeCloseTo(0.4378, 2)
-
             })
     })
 })
