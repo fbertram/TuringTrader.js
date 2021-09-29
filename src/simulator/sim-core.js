@@ -204,7 +204,24 @@ export const createSimulator = (algo) => {
     //========== external interface: methods called on the simulator instance
 
     const externalInterface = {
-        run: () => algo.run(internalInterface),
+        run: async () => {
+            const result = await algo.run(internalInterface)
+
+            // optional: load additional assets (benchmark, risk-free rate)
+            for (const key in algo.extra) {
+                const ticker = algo.extra[key]
+                const data = await loadAsset(internalInterface, ticker, algo.data)
+                    .data
+                result[key] = {
+                    meta: {
+                        ticker: data.meta.ticker,
+                    },
+                    c: data.c,
+                }
+            }
+
+            return result
+        },
         report: () => algo.report(internalInterface),
     }
 
