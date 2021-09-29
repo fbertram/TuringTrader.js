@@ -37,14 +37,14 @@ const algo = {
 
 //==============================================================================
 describe("test 0300: cache", () => {
-    const sim = createSimulator(algo)
-
     test("can read results from cache", () => {
-        const result = createSimulator(algo).run()
-
-        expect(result.toDoCounter).toEqual(1)
-        expect(result.result1).toEqual(data)
-        expect(result.result2).toEqual(data)
+        createSimulator(algo)
+            .run()
+            .then(result => {
+                expect(result.toDoCounter).toEqual(1)
+                expect(result.result1).toEqual(data)
+                expect(result.result2).toEqual(data)        
+            })
     })
 })
 

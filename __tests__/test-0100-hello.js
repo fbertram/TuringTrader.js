@@ -23,7 +23,11 @@ describe("test 0100: hello", () => {
     })
 
     test("can say hello", () => {
-        expect(sim.run()).toEqual(hello)
+        sim
+            .run()
+            .then(result => {
+                expect(result).toEqual(hello)
+            })
     })
 })
 
