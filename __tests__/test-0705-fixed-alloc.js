@@ -60,7 +60,7 @@ describe("test 0705: 60/40 w/ monthly rebal", () => {
                 expect(metrics.mdd).toBeCloseTo(35.6885, 2)
                 expect(metrics.mfd).toEqual(1164)
                 expect(metrics.ulcer).toBeCloseTo(7.4806, 2)
-                expect(metrics.sharpe).toBeCloseTo(0.6938, 2)
+                expect(metrics.sharpe).toBeCloseTo(0.6653, 2)
                 expect(metrics.martin).toBeCloseTo(1.0260, 2)
             })
     })

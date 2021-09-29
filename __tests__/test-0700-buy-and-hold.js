@@ -50,7 +50,7 @@ describe("test 0700: single-asset buy and hold", () => {
                 expect(metrics.mdd).toBeCloseTo(55.4229, 2)
                 expect(metrics.mfd).toEqual(1772)
                 expect(metrics.ulcer).toBeCloseTo(14.5338, 2)
-                expect(metrics.sharpe).toBeCloseTo(0.5041, 2)
+                expect(metrics.sharpe).toBeCloseTo(0.4790, 2)
                 expect(metrics.martin).toBeCloseTo(0.6391, 2)
             })
     })

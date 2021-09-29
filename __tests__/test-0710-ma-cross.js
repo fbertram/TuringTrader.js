@@ -61,7 +61,7 @@ describe("test 0600: simple orders", () => {
                 expect(metrics.mdd).toBeCloseTo(32.0490, 2)
                 expect(metrics.mfd).toEqual(1927)
                 expect(metrics.ulcer).toBeCloseTo(8.6189, 2)
-                expect(metrics.sharpe).toBeCloseTo(0.6279, 2)
+                expect(metrics.sharpe).toBeCloseTo(0.5941, 2)
                 expect(metrics.martin).toBeCloseTo(0.9934, 2)
             })
     })
