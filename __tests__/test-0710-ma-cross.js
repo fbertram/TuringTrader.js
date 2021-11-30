@@ -46,7 +46,24 @@ describe("test 0600: simple orders", () => {
     test("can calculate equity curve", () => {
         return createSimulator(algo)
             .run()
-            .then((result) => createReport(result))
+            .then((result) => {
+                let daysSpy = 0;
+                let daysAgg = 0;
+                result.cAlloc.forEach((alloc) => {
+                    var idxSpy = alloc.ticker.indexOf('spy')
+                    var wSpy = idxSpy >= 0 ? alloc.weight[idxSpy] : 0.0
+                    if (wSpy > 0.5) daysSpy++
+
+                    var idxAgg = alloc.ticker.indexOf('agg')
+                    var wAgg = idxAgg >= 0 ? alloc.weight[idxAgg] : 0.0
+                    if (wAgg > 0.5) daysAgg++
+                })
+                expect(daysSpy).toEqual(2625)
+                expect(daysAgg).toEqual(900)
+                expect(daysSpy + daysAgg).toEqual(3525) // ~14 years
+
+                return createReport(result)
+            })
             .then((report) => {
                 const metrics = report.metrics
                 //console.log(metrics)
