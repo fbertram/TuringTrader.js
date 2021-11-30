@@ -58,6 +58,7 @@ export const IndicatorsBar = (sim, id0, promise0) => ({
     alloc: (alloc, type, price) => ({
         time: sim.t(0),
         id: id0,
+        ticker: promise0.then(data => data.meta.ticker),
         data: IndicatorsOHLCV(sim, id0, promise0),
         alloc,
         type,

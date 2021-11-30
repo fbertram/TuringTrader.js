@@ -49,19 +49,19 @@ describe("test 0705: 60/40 w/ monthly rebal", () => {
                 const minWeights = {}
                 const maxWeights = {}
                 result.cAlloc.forEach((alloc) => {
-                    for (const i in alloc.symbol) {
-                        const symbol = alloc.symbol[i]
+                    for (const i in alloc.ticker) {
+                        const ticker = alloc.ticker[i]
                         const weight = alloc.weight[i]
 
                         if (weight != 0.0) {
-                            if (!(symbol in minWeights))
-                                minWeights[symbol] = 999
+                            if (!(ticker in minWeights))
+                                minWeights[ticker] = 999
 
-                            if (!(symbol in maxWeights))
-                                maxWeights[symbol] = -999
+                            if (!(ticker in maxWeights))
+                                maxWeights[ticker] = -999
 
-                            minWeights[symbol] = Math.min(weight, minWeights[symbol])
-                            maxWeights[symbol] = Math.max(weight, maxWeights[symbol])
+                            minWeights[ticker] = Math.min(weight, minWeights[ticker])
+                            maxWeights[ticker] = Math.max(weight, maxWeights[ticker])
                         }
                     }
                 })

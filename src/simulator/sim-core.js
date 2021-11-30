@@ -91,17 +91,14 @@ export const createSimulator = (algo) => {
                 // asset affected by the order basket
                 for (const oi in orders) {
                     const o = orders[oi]
-                    if (!(o.id in state.positions)) {
-                        state.positions[o.id] = {
+                    const ticker = await o.ticker
+                    if (!(ticker in state.positions)) {
+                        state.positions[ticker] = {
                             qty: 0.0,
                             data: o.data,
                         }
                     }
                 }
-
-                // FIXME: if this is the last bar, switch mktNextOpen orders
-                // to mktThisClose. This is to make sure the final target
-                // asset allocation matches the orders as close as possible
 
                 // process the orders in the sequence of execution.
                 // note that we don't know the sequence of limit
@@ -109,37 +106,38 @@ export const createSimulator = (algo) => {
                 for (const ti in internalInterface.orderTypes) {
                     // find the relevant asset prices
                     const prices = {}
-                    for (const p in state.positions) {
+                    for (const ticker in state.positions) {
                         // all order types except mktThisClose
                         // use the prices at open of next bar
-                        prices[p] =
+                        prices[ticker] =
                             ti === internalInterface.orderTypes.mktThisClose
-                                ? await state.positions[p].data.close.t(0)
-                                : await state.positions[p].data.open.t(-1)
+                                ? await state.positions[ticker].data.close.t(0)
+                                : await state.positions[ticker].data.open.t(-1)
                     }
 
                     // calculate and save nav
                     const nav = Object.keys(state.positions).reduce(
-                        (acc, p) => acc + state.positions[p].qty * prices[p],
+                        (acc, ticker) => acc + state.positions[ticker].qty * prices[ticker],
                         state.cash
                     )
 
                     // process orders
                     for (const oi in orders) {
                         const o = orders[oi]
+                        const ticker = await o.ticker
                         if (o.type !== internalInterface.orderTypes[ti])
                             continue
 
-                        const qtyCurrent = state.positions[o.id].qty
-                        const qtyNew = (o.alloc * nav) / prices[o.id]
+                        const qtyCurrent = state.positions[ticker].qty
+                        const qtyNew = (o.alloc * nav) / prices[ticker]
 
-                        const cashFlow = (qtyNew - qtyCurrent) * prices[o.id]
+                        const cashFlow = (qtyNew - qtyCurrent) * prices[ticker]
 
                         // ignore orders smaller than 0.1% of NAV
                         if (Math.abs(cashFlow / nav) > 1e-3) {
                             // TODO: consider commissions here
                             state.cash -= cashFlow
-                            state.positions[o.id].qty = qtyNew
+                            state.positions[ticker].qty = qtyNew
                         }
                     }
 
@@ -155,10 +153,10 @@ export const createSimulator = (algo) => {
                         result.t.push(internalInterface.t(0))
                         result.c.push(nav)
 
-                        const alloc = { symbol: [], weight: []}
-                        for (const p in state.positions) {
-                            alloc.symbol.push(p)
-                            alloc.weight.push(state.positions[p].qty * prices[p] / nav)
+                        const alloc = { ticker: [], weight: []}
+                        for (const ticker in state.positions) {
+                            alloc.ticker.push(ticker)
+                            alloc.weight.push(state.positions[ticker].qty * prices[ticker] / nav)
                         }
                         result.cAlloc.push(alloc)
                     } else if (
@@ -168,10 +166,10 @@ export const createSimulator = (algo) => {
                         // simData.t added while processing mktThisClose
                         result.o.push(nav)
 
-                        const alloc = { symbol: [], weight: []}
-                        for (const p in state.positions) {
-                            alloc.symbol.push(p)
-                            alloc.weight.push(state.positions[p].qty * prices[p] / nav)
+                        const alloc = { ticker: [], weight: []}
+                        for (const ticker in state.positions) {
+                            alloc.ticker.push(ticker)
+                            alloc.weight.push(state.positions[ticker].qty * prices[ticker] / nav)
                         }
                         result.oAlloc.push(alloc)
                     }

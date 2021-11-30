@@ -9,13 +9,7 @@ import { IndicatorsBar } from "../indicators"
 import { loadAssetFromYahoo } from "./yahoo"
 
 export const loadAsset = (sim, name, customLoaderFn) => {
-    // TODO: it is not clear if we need to have a complex name
-    //       including the start and end timestamps here.
-    //       should we end up using the complex name
-    //       we need to add a cleanup step to the 
-    //       simulator's asset allocation results
-    //const id = `loadAsset(${name},${sim.startDate.getTime()},${sim.endDate.getTime()})`
-    const id = name
+    const id = `loadAsset(${name},${sim.startDate.getTime()},${sim.endDate.getTime()})`
 
     const loadData = () => {
         const dataLoaderFn = customLoaderFn ?? loadAssetFromYahoo
