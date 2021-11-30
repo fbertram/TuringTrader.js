@@ -62,6 +62,7 @@ export const createSimulator = (algo) => {
 
         loop: async (fn) => {
             state.tradingDays = internalInterface.tradingCalendar.tradingDays
+            state.nextTradingDay = internalInterface.tradingCalendar.nextTradingDay
 
             const result = {
                 t: [],
@@ -184,16 +185,19 @@ export const createSimulator = (algo) => {
         },
 
         t: (offset) => {
-            // TODO: it would be helpful to look further than the sim range
-            // use case: we want to know the next trading date, so that
-            // we can determine the last trading day of the month
-            // it should be possible to do this, by using a larger range for
-            // the sim time range
-            const i = Math.min(
+            // this is the raw index into the tradingDays array
+            const rawIndex = state.tradingDayIndex - offset
+
+            // if the index is -1, we return the 
+            // next trading day *after* the sim range
+            if (rawIndex === state.tradingDays.length)
+                return state.nextTradingDay
+
+            const index = Math.min(
                 state.tradingDays.length - 1,
-                Math.max(0, state.tradingDayIndex - offset)
+                Math.max(0, rawIndex)
             )
-            return state.tradingDays[i]
+            return state.tradingDays[index]
         },
 
         deposit: (amount) => {

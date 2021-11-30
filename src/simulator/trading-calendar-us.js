@@ -316,7 +316,7 @@ const _holidayStrings = [
     "12/5/2018",
     "12/25/2018",
     //--- 2019
-    "1/1/2019",   // Years Day
+    "1/1/2019",   // New Years Day
     "1/21/2019",  // Martin Luther Kind, Jr. Day
     "2/18/2019",  // Washington's Birthday
     "4/19/2019",  // Good Friday
@@ -326,7 +326,7 @@ const _holidayStrings = [
     "11/28/2019", // Thanksgiving Day
     "12/25/2019", // Christmas
     //--- 2020
-    "1/1/2020",   // Years Day
+    "1/1/2020",   // New Years Day
     "1/20/2020",  // Martin Luther Kind, Jr. Day
     "2/17/2020",  // Washington's Birthday
     "4/10/2020",  // Good Friday
@@ -336,15 +336,37 @@ const _holidayStrings = [
     "11/26/2020", // Thanksgiving Day
     "12/25/2020", // Christmas
     //--- 2021
-    "1/1/2021",   // Years Day
-    "1/18/2021",  // Martin Luther Kind, Jr. Day
-    "2/15/2021",  // Washington's Birthday
-    "4/2/2021",   // Good Friday
-    "5/31/2021",  // Memorial Day
-    "7/5/2021",   // Independence Day
-    "9/6/2021",   // Labor Day
+    "01/01/2021", // New Years Day
+    "01/18/2021", // Martin Luther Kind, Jr. Day
+    "02/15/2021", // Washington's Birthday
+    "04/02/2021", // Good Friday
+    "05/31/2021", // Memorial Day
+    "07/05/2021", // Independence Day
+    "09/06/2021", // Labor Day
     "11/25/2021", // Thanksgiving Day
     "12/24/2021", // Christmas
+    //--- 2022
+    //"---", CultureInfo.InvariantCulture), // New Years Day
+    "01/17/2022", // Martin Luther Kind, Jr. Day
+    "02/21/2022", // Washington's Birthday
+    "04/15/2022", // Good Friday
+    "05/30/2022", // Memorial Day
+    "06/20/2022", // Juneteenth National Independence Day
+    "07/04/2022", // Independence Day
+    "09/05/2022", // Labor Day
+    "11/24/2022", // Thanksgiving Day
+    "12/26/2022", // Christmas Day
+    //--- 2023
+    "01/02/2023", // New Years Day
+    "01/16/2023", // Martin Luther Kind, Jr. Day
+    "02/20/2023", // Washington's Birthday
+    "04/07/2023", // Good Friday
+    "05/29/2023", // Memorial Day
+    "06/19/2023", // Juneteenth National Independence Day
+    "07/04/2023", // Independence Day
+    "09/04/2023", // Labor Day
+    "11/23/2023", // Thanksgiving Day
+    "12/25/2023", // Christmas Day
 ]
 
 const _holidays = _holidayStrings
@@ -373,7 +395,7 @@ export const createTradingCalendarUS = () => {
         get tradingDays() {
             // return result from cache (1st attempt: same request)
             if (data.startDate && data.enddate && data.cache?.startDate1 == data.startDate && data.cache?.endDate1 == data.endDate)
-                return cache.tradingDays
+                return data.cache?.tradingDays
 
             const isExchangeOpen = (dateTime) => {
                 const day = dateTime.setZone(_zone).weekday
@@ -424,7 +446,7 @@ export const createTradingCalendarUS = () => {
 
             // return result from cache (2nd attempt: same prev closing times)
             if (data.cache?.startDate2 == startDate && data.cache?.endDate2 == endDate)
-                return cache.tradingDays
+                return data.cache?.tradingDays
 
             // no cached result, recalculate
             const tradingDays = []
@@ -447,10 +469,11 @@ export const createTradingCalendarUS = () => {
             // this way algorithms can always determine the
             // end of the month
 
-            /*while (!isExchangeOpen(date))
+            while (!isExchangeOpen(date))
                 date = date.plus(_oneDay)
 
-            tradingDays.push(date.toJSDate())*/
+            //tradingDays.push(date.toJSDate())
+            const nextTradingDay = date.toJSDate()
 
             // cache the result
             data.cache = {
@@ -458,11 +481,16 @@ export const createTradingCalendarUS = () => {
                 startDate2: startDate,
                 endDate1: data.endDate,
                 endDate2: endDate,
-                tradingDays
+                tradingDays,
+                nextTradingDay,
             }
 
             return tradingDays
         },
+
+        get nextTradingDay() {
+            return data.cache?.nextTradingDay
+        }
     }
 }
 
