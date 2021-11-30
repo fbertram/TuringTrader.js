@@ -45,7 +45,33 @@ describe("test 0705: 60/40 w/ monthly rebal", () => {
     test("can calculate equity curve", () => {
         return createSimulator(algo)
             .run()
-            .then((result) => createReport(result))
+            .then((result) => {
+                const minWeights = {}
+                const maxWeights = {}
+                result.cAlloc.forEach((alloc) => {
+                    for (const i in alloc.symbol) {
+                        const symbol = alloc.symbol[i]
+                        const weight = alloc.weight[i]
+
+                        if (weight != 0.0) {
+                            if (!(symbol in minWeights))
+                                minWeights[symbol] = 999
+
+                            if (!(symbol in maxWeights))
+                                maxWeights[symbol] = -999
+
+                            minWeights[symbol] = Math.min(weight, minWeights[symbol])
+                            maxWeights[symbol] = Math.max(weight, maxWeights[symbol])
+                        }
+                    }
+                })
+                expect(minWeights['spy']).toBeCloseTo(0.52691, 3)
+                expect(minWeights['agg']).toBeCloseTo(0.36567, 3)
+                expect(maxWeights['spy']).toBeCloseTo(0.63433, 3)
+                expect(maxWeights['agg']).toBeCloseTo(0.47309, 3)
+
+                return createReport(result)
+            })
             .then((report) => {
                 const metrics = report.metrics
                 //console.log(metrics)

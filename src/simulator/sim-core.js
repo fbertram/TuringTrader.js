@@ -84,6 +84,7 @@ export const createSimulator = (algo) => {
                 // simulator's state
 
                 state.tradingDayIndex = i
+                const isLastTradingDay = i === state.tradingDays.length - 1
                 const orders = await fn()
 
                 // make sure we have a position for each
@@ -142,22 +143,23 @@ export const createSimulator = (algo) => {
                         }
                     }
 
+                    // TODO: remove positions < 0.1% of NAV
+
                     // save nav & allocations
                     if (
                         internalInterface.orderTypes[ti] ===
-                        internalInterface.orderTypes.mktThisClose
+                        internalInterface.orderTypes.mktThisClose || 
+                        (isLastTradingDay && internalInterface.orderTypes[ti] ===
+                            internalInterface.orderTypes.mktNextOpen)
                     ) {
                         result.t.push(internalInterface.t(0))
                         result.c.push(nav)
 
-                        const alloc = []
-                        /*for (const p in state.positions) {
-                            alloc.push({
-                                sym: p,
-                                alloc:
-                                    (state.positions[p].qty * prices[p]) / nav,
-                            })
-                        }*/
+                        const alloc = { symbol: [], weight: []}
+                        for (const p in state.positions) {
+                            alloc.symbol.push(p)
+                            alloc.weight.push(state.positions[p].qty * prices[p] / nav)
+                        }
                         result.cAlloc.push(alloc)
                     } else if (
                         internalInterface.orderTypes[ti] ===
@@ -166,14 +168,11 @@ export const createSimulator = (algo) => {
                         // simData.t added while processing mktThisClose
                         result.o.push(nav)
 
-                        const alloc = []
-                        /*for (const p in state.positions) {
-                            alloc.push({
-                                sym: p,
-                                alloc:
-                                    (state.positions[p].qty * prices[p]) / nav,
-                            })
-                        }*/
+                        const alloc = { symbol: [], weight: []}
+                        for (const p in state.positions) {
+                            alloc.symbol.push(p)
+                            alloc.weight.push(state.positions[p].qty * prices[p] / nav)
+                        }
                         result.oAlloc.push(alloc)
                     }
 
