@@ -10,6 +10,10 @@ import { createSimulator } from "../src"
 //==============================================================================
 const algo = {
     run: async (sim) => {
+        // BUGBUG: test may fail in non-US timezones,
+        // if a date rollover is involved
+        // FIXME: specify timezone offset to remedy
+
         sim.startDate = new Date("01/01/2021")
         sim.endDate = new Date("05/01/2021")
 
