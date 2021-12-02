@@ -76,6 +76,7 @@ export const createSimulator = (algo) => {
                 // limit and stop orders are reflected in the close
                 oAlloc: [],
                 cAlloc: [],
+                fAlloc: [],
             }
 
             for (const i in state.tradingDays) {
@@ -86,6 +87,9 @@ export const createSimulator = (algo) => {
                 state.tradingDayIndex = i
                 const isLastTradingDay = i === state.tradingDays.length - 1
                 const orders = await fn()
+
+                // set flag to indicate rebalancing dates
+                result.fAlloc.push(orders?.length > 0 ? 1 : 0)
 
                 // make sure we have a position for each
                 // asset affected by the order basket

@@ -70,6 +70,9 @@ describe("test 0705: 60/40 w/ monthly rebal", () => {
                 expect(maxWeights['spy']).toBeCloseTo(0.63433, 3)
                 expect(maxWeights['agg']).toBeCloseTo(0.47309, 3)
 
+                const numRebal = result.fAlloc.reduce((prev, curr) => prev + curr, 0)
+                expect(numRebal).toEqual(169) // 14 years @ 12/year
+
                 return createReport(result)
             })
             .then((report) => {
