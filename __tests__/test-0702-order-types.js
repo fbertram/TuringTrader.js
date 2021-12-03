@@ -76,7 +76,7 @@ describe("test 0702: test order types", () => {
         return createSimulator(algo2)
             .run()
             .then((result) => {
-                console.log(JSON.stringify(result))
+                //console.log(JSON.stringify(result))
 
                 expect(result.o[0]).toBeCloseTo(1000, 3)
                 expect(result.c[0]).toBeCloseTo(1000, 3)
