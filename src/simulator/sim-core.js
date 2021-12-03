@@ -74,8 +74,11 @@ export const createSimulator = (algo) => {
                 c: [],
                 // these are the asset allocations on open and close
                 // limit and stop orders are reflected in the close
-                oAlloc: [],
+                oAlloc: [{ticker: [], weight: []}],
                 cAlloc: [],
+                // this flag indicates rebalancing dates. mktNextOpen
+                // orders are reflected on the previous close because
+                // that's when they've been submitted
                 fAlloc: [],
             }
 
@@ -85,7 +88,7 @@ export const createSimulator = (algo) => {
                 // simulator's state
 
                 state.tradingDayIndex = i
-                const isLastTradingDay = i === state.tradingDays.length - 1
+                const isLastTradingDay = Number(i) === (state.tradingDays.length - 1)
                 const orders = await fn()
 
                 // set flag to indicate rebalancing dates
@@ -114,12 +117,12 @@ export const createSimulator = (algo) => {
                         // all order types except mktThisClose
                         // use the prices at open of next bar
                         prices[ticker] =
-                            ti === internalInterface.orderTypes.mktThisClose
+                            internalInterface.orderTypes[ti] === internalInterface.orderTypes.mktThisClose
                                 ? await state.positions[ticker].data.close.t(0)
                                 : await state.positions[ticker].data.open.t(-1)
                     }
 
-                    // calculate and save nav
+                    // calculate NAV
                     const nav = Object.keys(state.positions).reduce(
                         (acc, ticker) => acc + state.positions[ticker].qty * prices[ticker],
                         state.cash
@@ -127,11 +130,20 @@ export const createSimulator = (algo) => {
 
                     // process orders
                     for (const oi in orders) {
-                        const o = orders[oi]
-                        const ticker = await o.ticker
+                        const o = {...orders[oi]}
+
+                        // on last bar, we execute mktNextOpen as mktThisClose
+                        if (isLastTradingDay === true && 
+                            o.type === internalInterface.orderTypes.mktNextOpen
+                        ) {
+                            o.type = internalInterface.orderTypes.mktThisClose
+                        }
+
+                        // only execute orders of type we are currently processing
                         if (o.type !== internalInterface.orderTypes[ti])
                             continue
 
+                        const ticker = await o.ticker
                         const qtyCurrent = state.positions[ticker].qty
                         const qtyNew = (o.alloc * nav) / prices[ticker]
 
@@ -147,12 +159,10 @@ export const createSimulator = (algo) => {
 
                     // TODO: remove positions < 0.1% of NAV
 
-                    // save nav & allocations
+                    // save NAV & allocations
                     if (
                         internalInterface.orderTypes[ti] ===
-                        internalInterface.orderTypes.mktThisClose || 
-                        (isLastTradingDay && internalInterface.orderTypes[ti] ===
-                            internalInterface.orderTypes.mktNextOpen)
+                        internalInterface.orderTypes.mktThisClose
                     ) {
                         result.t.push(internalInterface.t(0))
                         result.c.push(nav)
@@ -164,6 +174,7 @@ export const createSimulator = (algo) => {
                         }
                         result.cAlloc.push(alloc)
                     } else if (
+                        isLastTradingDay !== true && 
                         internalInterface.orderTypes[ti] ===
                         internalInterface.orderTypes.mktNextOpen
                     ) {

@@ -41,7 +41,7 @@ const algo = {
 }
 
 //==============================================================================
-describe("test 0600: simple orders", () => {
+describe("test 0710: MA cross", () => {
 
     test("can calculate equity curve", () => {
         return createSimulator(algo)
@@ -74,15 +74,15 @@ describe("test 0600: simple orders", () => {
                 expect(metrics.lastBar).toEqual(new Date("2020-12-31T21:00:00.000Z"))
                 expect(metrics.reportDays).toEqual(5116)
                 expect(metrics.reportYears).toBeCloseTo(14.0068, 2)
-                expect(metrics.startValue).toBeCloseTo(1000.0000, 1)
-                expect(metrics.endValue).toBeCloseTo(3160.4366, 1)
-                expect(metrics.cagr).toBeCloseTo(8.5622, 2)
-                expect(metrics.stdev).toBeCloseTo(13.6347, 2)
-                expect(metrics.mdd).toBeCloseTo(32.0490, 2)
+                expect(metrics.startValue).toBeCloseTo(1000.0000, 2)
+                expect(metrics.endValue).toBeCloseTo(3178.2898, 2)
+                expect(metrics.cagr).toBeCloseTo(8.6059, 2)
+                expect(metrics.stdev).toBeCloseTo(13.6419, 2)
+                expect(metrics.mdd).toBeCloseTo(33.7173, 2)
                 expect(metrics.mfd).toEqual(1927)
-                expect(metrics.ulcer).toBeCloseTo(8.6189, 2)
+                expect(metrics.ulcer).toBeCloseTo(8.5048, 2)
                 expect(metrics.sharpe).toBeCloseTo(0.5941, 2)
-                expect(metrics.martin).toBeCloseTo(0.9934, 2)
+                expect(metrics.martin).toBeCloseTo(1.0119, 2)
             })
     })
 })
