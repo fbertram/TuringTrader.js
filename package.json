@@ -1,6 +1,6 @@
 {
     "name": "turingtrader.js",
-    "version": "0.0.17",
+    "version": "0.0.18",
     "description": "A backtesting engine for Node.js",
     "main": "dist/index.js",
     "scripts": {
@@ -10,7 +10,7 @@
         "deploy": "npm publish",
         "start": "npx babel src --watch --out-dir dist",
         "test": "jest",
-        "test-single": "jest --testPathPattern=test-0710-",
+        "test-single": "jest --testPathPattern=test-0407-",
         "profile": "node --prof ./dist/profiling"
     },
     "jest": {

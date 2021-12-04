@@ -65,7 +65,9 @@ export const loadAssetFromYahoo = (sim, name) => {
 
             // convert timestamps
             // NOTE: Yahoo! timestamps are at the open (9:30 am),
-            // TuringTrader.js timestamps are at the close (4:00 pm)
+            // TuringTrader.js timestamps are at the close (4:00 pm).
+            // this is not an issue, because the simulator will align
+            // the timestamps with the trading calendar upon load.
             const timestamps = rawTimestamps.map(
                 (element) => new Date(element * 1000)
             )
@@ -73,6 +75,8 @@ export const loadAssetFromYahoo = (sim, name) => {
             return {
                 meta: {
                     ticker,
+                    firstT: timestamps[0],
+                    lastT: timestamps[timestamps.length - 1],
                 },
                 t: timestamps,
                 o: adjustedOpen,

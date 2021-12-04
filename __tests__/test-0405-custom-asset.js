@@ -16,7 +16,7 @@ const algo = {
 
         return new Promise((resolve, reject) => {
             // typically this would be a fetch. we simulate
-            // some response time using a timer.
+            // a finite response time using a timer.
             setTimeout(() => {
                 let data = {
                     meta: {
@@ -48,7 +48,7 @@ const algo = {
                     t = new Date(t.getTime() + 8 * hour)
                 }
                 resolve(data)
-            })
+            }, 100)
         })
     },
     run: async (sim) => {

@@ -44,7 +44,7 @@ describe("test 0400: asset", () => {
                 expect(result.data.l.length).toEqual(83)
                 expect(result.data.c.length).toEqual(83)
                 expect(result.data.v.length).toEqual(83)
-                // TODO: verify some key data points
+                // TODO: verify last close divided by first open
             })
     })
 })
