@@ -94,6 +94,15 @@ export const createReport = (simResult) => {
                 [calcCagr(start[0], end[0]), calcCagr(start[1], end[1])] : 
                 calcCagr(start, end)
         },
+        cagrPeriod(tradingDays) {
+            const bench = getBench()
+            return bench ?
+                [
+                    100 * (getMain().c[getMain().c.length - 1] / getMain().c[getMain().c.length - tradingDays - 1] - 1),
+                    100 * (getBench().c[getBench().c.length - 1] / getBench().c[getBench().c.length - tradingDays - 1] - 1)
+                ] :
+                100 * (getMain().c[getMain().c.length - 1] / getMain().c[getMain().c.length - tradingDays - 1] - 1)
+        },
         get stdev() {
             const calcStdev = (series) => {
                 const returns = getMonthlyRets(series)

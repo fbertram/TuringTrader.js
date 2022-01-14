@@ -34,7 +34,7 @@ const algo2 = {
 const report = {}
 
 //==============================================================================
-describe("test 5000: simple report", () => {
+describe("test 0600: simple report", () => {
     test("can calculate basic metrics", () => {
         return createSimulator(algo)
             .run()
@@ -48,6 +48,7 @@ describe("test 5000: simple report", () => {
                 expect(metrics.startValue).toBeCloseTo(1424.7099, 1)
                 expect(metrics.endValue).toBeCloseTo(3756.0700, 1)
                 expect(metrics.cagr).toBeCloseTo(7.1661, 2)
+                expect(metrics.cagrPeriod(252)).toBeCloseTo(15.2929, 2)
                 expect(metrics.stdev).toBeCloseTo(18.6480, 2)
                 expect(metrics.mdd).toBeCloseTo(56.7754, 2)
                 expect(metrics.mfd).toEqual(1997)

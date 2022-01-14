@@ -10,7 +10,7 @@
         "deploy": "npm publish",
         "start": "npx babel src --watch --out-dir dist",
         "test": "jest",
-        "test-single": "jest --testPathPattern=test-0407-",
+        "test-single": "jest --testPathPattern=test-0600-",
         "profile": "node --prof ./dist/profiling"
     },
     "jest": {
